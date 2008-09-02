@@ -1,0 +1,30 @@
+# PASSED = :blue 
+# FAILED = :yellow 
+# require 'autotest/redishgreenish'
+require 'autotest/redgreen'
+require 'autotest/growl'
+
+
+module Autotest::Growl  
+  def self.image_growl title, msg, img, pri=0, stick=""  
+    cmd = "growlnotify -n autotest --image #{img} -p #{pri} -m #{ msg.inspect} #{title} #{stick}"  
+    system cmd
+  end  
+  
+  Autotest.add_hook :ran_command do |autotest|  
+  results = [autotest.results].flatten.join("\n")
+      output = results.slice(/(\d+)\stests,\s(\d+)\sassertions,\s(\d+)\sfailures,\s(\d+)\serrors/)
+      if output
+        if $~[3].to_i > 0 || $~[4].to_i > 0
+          image_growl "FAIL", "#{output}", "~/Library/autotest/rails_fail.png", 2
+        else
+          image_growl "Pass", "#{output}", "~/Library/autotest/rails_ok.png"
+        end
+      end
+  end  
+      
+end  
+  
+Autotest.add_hook :initialize do |at|  
+    %w{.svn .hg .git vendor}.each {|exception| at.add_exception(exception)}  
+end
