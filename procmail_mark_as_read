@@ -1,0 +1,9 @@
+:0
+{
+:0 c
+$folder/
+
+:0 hi
+* LASTFOLDER ?? /\/[^/]+$
+| mv $LASTFOLDER $folder/cur/$MATCH:2,S
+}

@@ -1,0 +1,21 @@
+#MAILDIR=$HOME/Maildir/
+
+#:0:
+#* ^Subject:.*\[rails-oceania\]
+#$HOME/Maildir/.general.newsletters.ror_au/
+
+:0:
+* ^To:.*haml@
+$HOME/Maildir/.general.newsletters.haml/
+
+:0:
+* ^To:.*rails-oceania@
+$HOME/Maildir/.general.newsletters.ror_au/
+
+:0:
+* ^To:.*Sydney-Ruby-Users@
+$HOME/Maildir/.general.newsletters.ror_au/
+
+:0:
+* ^From: .*winny.shum@
+$HOME/Maildir/.general/

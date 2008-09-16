@@ -1,0 +1,17 @@
+UMASK=007
+MAILDIR=$HOME/Maildir/
+DEFAULT=$HOME/Maildir/
+LOGFILE=/var/log/procmail.log
+DROPPRIVS=yes
+
+## filter spam
+#:0:
+#* ^X-Spam-Status: Yes
+#$HOME/Maildir/.spam-mail/
+
+:0
+* ^X-Spam-Status: Yes
+{
+  folder=$HOME/Maildir/.spam-mail
+  INCLUDERC=/etc/procmail_mark_as_read
+}
