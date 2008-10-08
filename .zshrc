@@ -64,6 +64,9 @@ bindkey -e
 ###
 # setup colours
 ###
+export CLICOLOR=1
+export LSCOLORS=gxfxcxdxbxegedabagacad 
+
 autoload colors zsh/terminfo
 if [[ "$terminfo[colors]" -ge 8 ]]; then
   colors
