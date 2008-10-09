@@ -134,7 +134,7 @@ alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gb='git branch'
 alias gba='git branch -a'
-
+alias gpcd='git push && cap deploy'
 
 ###
 # get the name of the branch we are on
