@@ -1,7 +1,7 @@
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
 (column-number-mode)
-(global-hl-line-mode 1)
+;;(global-hl-line-mode 1)
 (mouse-wheel-mode t)
 
 ;; set ido mode
@@ -83,9 +83,20 @@
                  (setq outline-regexp " *\\(def \\|class\\|module\\)")))
 (setq-default outline-minor-mode-prefix  "\C-c") 
 
+;; load color themes
 (require 'color-theme)
 (color-theme-initialize)
 (setq color-theme-is-global t)
 (load-file (concat home-dir ".site-lisp/zenburn.el"))
 (load-file (concat home-dir ".site-lisp/twilight.el"))
 (color-theme-twilight)
+
+;; add func to simulate txtmate apple-t
+(require 'filecache)
+(defun rails-add-proj-to-file-cache (dir)
+  "Adds all the ruby and rhtml files recursively in the current directory to the file-cache"
+  (interactive "DAdd directory: ")
+    (file-cache-clear-cache)
+    (file-cache-add-directory-recursively 
+     dir (regexp-opt (list ".rb" ".rhtml" ".xml" ".js" ".yml" "*.haml" "*.sass" "*.css")))
+    (file-cache-delete-file-regexp "\\.svn"))
