@@ -1,5 +1,8 @@
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
+(column-number-mode)
+(global-hl-line-mode 1)
+(mouse-wheel-mode t)
 
 ;; set ido mode
 (ido-mode t)
@@ -8,6 +11,7 @@
 ;; directory to put various el files into
 (defvar home-dir (concat (expand-file-name "~") "/"))
 (add-to-list 'load-path (concat home-dir ".site-lisp"))
+(add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
 
 ;; MODES
 
@@ -78,3 +82,10 @@
                  (outline-minor-mode)
                  (setq outline-regexp " *\\(def \\|class\\|module\\)")))
 (setq-default outline-minor-mode-prefix  "\C-c") 
+
+(require 'color-theme)
+(color-theme-initialize)
+(setq color-theme-is-global t)
+(load-file (concat home-dir ".site-lisp/zenburn.el"))
+(load-file (concat home-dir ".site-lisp/twilight.el"))
+(color-theme-twilight)
