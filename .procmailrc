@@ -9,13 +9,28 @@
 $HOME/Maildir/.general.newsletters.haml/
 
 :0:
+* 1^0 ^To:.*macruby-devel@
+* 1^0 ^Cc: *macruby-devel@
+$HOME/Maildir/.general.newsletters.macruby/
+
+:0:
+* 1^0 ^To:.*webkitsdk-dev@
+* 1^0 ^List-Id:.*webkitsdk-dev@
+$HOME/Maildir/.general.newsletters.webkit/
+
+:0:
 * ^To:.*rails-oceania@
 $HOME/Maildir/.general.newsletters.ror_au/
+
+:0:
+* ^To:.*rails-business@
+$HOME/Maildir/.general.newsletters.rails-biz/
 
 :0:
 * ^To:.*Sydney-Ruby-Users@
 $HOME/Maildir/.general.newsletters.ror_au/
 
 :0:
-* ^From: .*winny.shum@
+* 1^0 ^From: .*winny.shum@
+* 1^0 ^From: .*wshu????@
 $HOME/Maildir/.general/
