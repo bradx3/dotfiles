@@ -1,3 +1,6 @@
+;; start emacs server
+(server-start)
+
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
 (column-number-mode)
@@ -98,5 +101,33 @@
   (interactive "DAdd directory: ")
     (file-cache-clear-cache)
     (file-cache-add-directory-recursively 
-     dir (regexp-opt (list ".rb" ".rhtml" ".xml" ".js" ".yml" "*.haml" "*.sass" "*.css")))
+     dir (regexp-opt (list ".rb" ".rhtml" ".xml" ".js" ".yml" ".haml" ".sass" ".css")))
     (file-cache-delete-file-regexp "\\.svn"))
+
+(defun run-current-file ()
+  "Execute or compile the current file.
+For example, if the current buffer is the file x.pl,
+then it'll call “perl x.pl” in a shell.
+The file can be php, perl, python, bash, java.
+File suffix is used to determine what program to run."
+(interactive)
+  (let (ext-map file-name file-ext prog-name cmd-str)
+; get the file name
+; get the program name
+; run it
+    (setq ext-map
+          '(
+            ("php" . "php")
+            ("pl" . "perl")
+            ("py" . "python")
+            ("sh" . "bash")
+            ("java" . "javac")
+            ("rb" . "ruby")
+            )
+          )
+    (setq file-name (buffer-file-name))
+    (setq file-ext (file-name-extension file-name))
+    (setq prog-name (cdr (assoc file-ext ext-map)))
+    (setq cmd-str (concat prog-name " " file-name))
+    (shell-command cmd-str)))
+(global-set-key (kbd "<f7>") 'run-current-file)
