@@ -48,14 +48,15 @@ export PATH=$PATH:~/bin
 export SHELL="/bin/zsh"
 export RUBYLIB="/Users/brad/projects/scripts/lib"
 
+export EDITOR="emacs"
+export GIT_EDITOR="emacs"
+
 if [[ -f "/usr/bin/mate_wait" ]] then
-  export EDITOR="mate_wait"
-  export GIT_EDITOR="mate_wait"
+#  export EDITOR="mate_wait"
+#  export GIT_EDITOR="mate_wait"
   export CLICOLOR=1
   export LSCOLORS=gxfxcxdxbxegedabagacad 
 else
-  export EDITOR="emacs"
-  export GIT_EDITOR="emacs"
   alias ls='ls --color'
   export LS_COLORS="di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=:ow=:"
 fi
