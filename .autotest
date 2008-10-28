@@ -17,6 +17,7 @@ module Autotest::Growl
       if output
         if $~[3].to_i > 0 || $~[4].to_i > 0
           image_growl "FAIL", "#{output}", "~/Library/autotest/rails_fail.png", 2
+	  %x{ say "Tests failed" }
         else
           image_growl "Pass", "#{output}", "~/Library/autotest/rails_ok.png"
         end
