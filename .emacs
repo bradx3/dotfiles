@@ -4,8 +4,8 @@
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
 (column-number-mode)
-;;(global-hl-line-mode 1)
 (mouse-wheel-mode t)
+(setq case-fold-search t)
 
 ;; set ido mode
 (ido-mode t)
