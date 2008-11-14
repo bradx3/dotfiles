@@ -22,6 +22,7 @@
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rake$" . html-mode) auto-mode-alist))
 ;; haml mode
 (require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
@@ -40,6 +41,10 @@
 ;; Rinari (rails helpers)
 (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 (require 'rinari)
+;; closure mode
+(add-to-list 'load-path (concat home-dir ".site-lisp/clojure-mode"))
+(setq inferior-lisp-program "/opt/local/bin/clj")
+(require 'clojure-auto)
 
 
 ;; KEY BINDINGS
