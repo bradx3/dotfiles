@@ -48,9 +48,8 @@
 ;; Rinari (rails helpers)
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 ;(require 'rinari)
-
 ;; magit
-(add-to-list 'load-path (concat home-dir ".site-lisp/mainline"))
+(add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
 ;; yasnippet
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/yasnippet-0.5.7"))
