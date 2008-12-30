@@ -198,3 +198,4 @@ File suffix is used to determine what program to run."
   (interactive)
   (slime 'clojure))
 
+(global-set-key [f5] 'slime-eval-buffer)
