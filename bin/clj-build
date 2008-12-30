@@ -1,0 +1,21 @@
+#!/bin/sh -e
+if [ "$CLJ_ROOT" == "" ]; then
+    CLJ_ROOT=/Users/brad/projects/resources/clojure/
+fi
+export CLJ_ROOT
+
+cd $CLJ_ROOT
+rm -dfr clojure
+rm -dfr clojure-contrib
+rm -dfr clojure-mode
+rm -dfr swank-clojure
+svn co https://clojure.svn.sourceforge.net/svnroot/clojure clojure
+git clone git://github.com/jochu/clojure-mode.git
+git clone git://github.com/jochu/swank-clojure.git
+svn co https://clojure-contrib.svn.sourceforge.net/svnroot/clojure-contrib clojure-contrib
+cvs -d :pserver:anonymous:anonymous@common-lisp.net:/project/slime/cvsroot co slime
+cd clojure/trunk
+ant
+cd -
+cd clojure-contrib/trunk
+ant
