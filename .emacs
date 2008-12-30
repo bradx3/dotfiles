@@ -1,5 +1,7 @@
+
 ;; start emacs server
-(server-start)
+;(server-start)
+
 
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
@@ -16,13 +18,18 @@
 (add-to-list 'load-path (concat home-dir ".site-lisp"))
 (add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
 
-;; MODES
+;; MODES/HELPERS
+
+;; loads diff mode when git commit file loaded
+(setq auto-mode-alist  (cons '("COMMIT_EDITMSG" . diff-mode) auto-mode-alist))
+;; loads html mode when erb file load
+(setq auto-mode-alist  (cons '(".html\.erb$" . html-mode) auto-mode-alist))
 
 ;; loads ruby mode when a .rb file is opened.
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".\.rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
-(setq auto-mode-alist  (cons '(".rake$" . html-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rake$" . ruby-mode) auto-mode-alist))
 ;; haml mode
 (require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
@@ -39,13 +46,43 @@
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 ;; Rinari (rails helpers)
-(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
-(require 'rinari)
+;(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
+;(require 'rinari)
 ;; closure mode
 (add-to-list 'load-path (concat home-dir ".site-lisp/clojure-mode"))
-(setq inferior-lisp-program "/opt/local/bin/clj")
 (require 'clojure-auto)
 
+;(setq inferior-lisp-program "/opt/local/bin/clj")
+(add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
+(require 'slime)
+(slime-setup)
+;;; (slime-setup '(slime-fancy))
+;;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+;;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+;;; (setq slime-multiprocessing t)
+
+(defun clojure ()
+  "Starts clojure in Slime"
+  (interactive)
+  (slime 'clojure))
+
+
+(add-to-list 'load-path (concat home-dir ".site-lisp/swank-clojure"))
+;(setq swank-clojure-jar-path "/opt/local/share/java/clojure/lib/clojure.jar")
+(require 'swank-clojure-autoload)
+
+
+(add-to-list 'load-path (concat home-dir ".site-lisp/swank-clojure"))
+
+
+;; magit
+(add-to-list 'load-path (concat home-dir ".site-lisp/mainline"))
+(require 'magit)
+;; yasnippet
+;(add-to-list 'load-path (concat home-dir ".site-lisp/yasnippet-0.5.7"))
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory (concat home-dir ".site-lisp/snippets"))
 
 ;; KEY BINDINGS
 
@@ -136,3 +173,19 @@ File suffix is used to determine what program to run."
     (setq cmd-str (concat prog-name " " file-name))
     (shell-command cmd-str)))
 (global-set-key (kbd "<f7>") 'run-current-file)
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(fringe-mode 0 nil (fringe))
+ '(paren-match-face (quote paren-face-match-light))
+ '(paren-sexp-mode t)
+ '(transient-mark-mode t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
