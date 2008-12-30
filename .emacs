@@ -48,32 +48,6 @@
 ;; Rinari (rails helpers)
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 ;(require 'rinari)
-;; closure mode
-(add-to-list 'load-path (concat home-dir ".site-lisp/clojure-mode"))
-(require 'clojure-auto)
-
-;(setq inferior-lisp-program "/opt/local/bin/clj")
-(add-to-list 'load-path "/opt/local/share/emacs/site-lisp/slime")
-(require 'slime)
-(slime-setup)
-;;; (slime-setup '(slime-fancy))
-;;; (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-;;; (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-;;; (setq slime-multiprocessing t)
-
-(defun clojure ()
-  "Starts clojure in Slime"
-  (interactive)
-  (slime 'clojure))
-
-
-(add-to-list 'load-path (concat home-dir ".site-lisp/swank-clojure"))
-;(setq swank-clojure-jar-path "/opt/local/share/java/clojure/lib/clojure.jar")
-(require 'swank-clojure-autoload)
-
-
-(add-to-list 'load-path (concat home-dir ".site-lisp/swank-clojure"))
-
 
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/mainline"))
