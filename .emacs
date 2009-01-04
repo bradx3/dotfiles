@@ -166,36 +166,40 @@ File suffix is used to determine what program to run."
 
 ;;__________________________________________________________________________
 ;;;;    Programming - Clojure
-
-(defvar clj-root (concat (expand-file-name "~") "/projects/resources/clojure/"))
-(setq load-path (append (list (concat clj-root "slime")
-			      (concat clj-root "slime/contrib")
-			      (concat clj-root "clojure-mode")
-			      (concat clj-root "swank-clojure"))
-			load-path))
-
-;; Clojure mode
+;; closure mode
+(add-to-list 'load-path (concat home-dir "/projects/resources/clojure/clojure-mode"))
+(setq inferior-lisp-program "~/bin/clj")
 (require 'clojure-auto)
-;; (require 'clojure-paredit) ; Uncomment if you use Paredit
- 
-;; Slime
-(require 'slime)
-(slime-setup)
- 
-;; clojure swank
-(setq swank-clojure-jar-path (concat clj-root "/clojure/trunk/clojure.jar"))
-;alternatively, you can set up the clojure wrapper script and use that: 
-;(setq swank-clojure-binary "/path/to/cljwrapper")
- 
-; you can also set up extra classpaths, such as the classes/ directory used by AOT compilation
-;(setq swank-clojure-extra-classpaths (list "/path/to/extra/classpaths" "/even/more/classpaths"))
- 
-(require 'swank-clojure-autoload)
- 
-;; is this required? I don't have this in my emacs configuration; I just execute M-x slime to start slime -- Chousuke 
-(defun run-clojure ()
-  "Starts clojure in Slime"
-  (interactive)
-  (slime 'clojure))
 
-(global-set-key [f5] 'slime-eval-buffer)
+;;; (defvar clj-root (concat (expand-file-name "~") "/projects/resources/clojure/"))
+;;; (setq load-path (append (list (concat clj-root "slime")
+;;; 			      (concat clj-root "slime/contrib")
+;;; 			      (concat clj-root "clojure-mode")
+;;; 			      (concat clj-root "swank-clojure"))
+;;; 			load-path))
+
+;;; ;; Clojure mode
+;;; (require 'clojure-auto)
+;;; ;; (require 'clojure-paredit) ; Uncomment if you use Paredit
+ 
+;;; ;; Slime
+;;; (require 'slime)
+;;; (slime-setup)
+ 
+;;; ;; clojure swank
+;;; (setq swank-clojure-jar-path (concat clj-root "/clojure/trunk/clojure.jar"))
+;;; ;alternatively, you can set up the clojure wrapper script and use that: 
+;;; ;(setq swank-clojure-binary "/path/to/cljwrapper")
+ 
+;;; ; you can also set up extra classpaths, such as the classes/ directory used by AOT compilation
+;;; ;(setq swank-clojure-extra-classpaths (list "/path/to/extra/classpaths" "/even/more/classpaths"))
+ 
+;;; (require 'swank-clojure-autoload)
+ 
+;;; ;; is this required? I don't have this in my emacs configuration; I just execute M-x slime to start slime -- Chousuke 
+;;; (defun run-clojure ()
+;;;   "Starts clojure in Slime"
+;;;   (interactive)
+;;;   (slime 'clojure))
+
+;;; (global-set-key [f5] 'slime-eval-buffer)
