@@ -1,24 +1,36 @@
-
-;; start emacs server
-;(server-start)
-
-
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
 (column-number-mode)
 (mouse-wheel-mode t)
 (setq case-fold-search t)
+; auto delete selection on typing
+(delete-selection-mode t)
+; alt-left right up down to change split frames
+(require 'windmove)
+(windmove-default-keybindings 'meta)
+; change yes-or-no to y-or-n
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; set ido mode
 (ido-mode t)
 (setq ido-enable-flex-matching t) ; fuzzy matching is a must have
+(setq ido-confirm-unique-completion t)
+(setq ido-default-buffer-method 'samewindow)
+(setq ido-use-filename-at-point t)
+(setq ido-enable-flex-matching t)
+(ido-mode t)
+(ido-everywhere t)
+(icomplete-mode 1)
+(set-face-background 'ido-first-match "aqua")
+(set-face-foreground 'ido-subdir "lightBlue")
 
 ;; directory to put various el files into
 (defvar home-dir (concat (expand-file-name "~") "/"))
 (add-to-list 'load-path (concat home-dir ".site-lisp"))
 (add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
 
-;; MODES/HELPERS
+
+;; MODES
 
 ;; loads diff mode when git commit file loaded
 (setq auto-mode-alist  (cons '("COMMIT_EDITMSG" . diff-mode) auto-mode-alist))
@@ -46,8 +58,8 @@
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 ;; Rinari (rails helpers)
-;(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
-;(require 'rinari)
+(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
+(require 'rinari)
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
@@ -56,15 +68,17 @@
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory (concat home-dir ".site-lisp/snippets"))
+;; closure mode
+(add-to-list 'load-path (concat home-dir "/projects/resources/clojure/clojure-mode"))
+(setq inferior-lisp-program "~/bin/clj")
+(require 'clojure-auto)
 
 ;; KEY BINDINGS
-
 
 ;; Translate C-h to DEL
 (keyboard-translate ?\C-h ?\C-?)
 ;; Define M-h to help  ---  please don't add an extra ' after help!
 (global-set-key "\M-h" 'help)
-
 
 ;; BACKUP FILES
 
@@ -109,15 +123,23 @@
 (load-file (concat home-dir ".site-lisp/twilight.el"))
 (color-theme-twilight)
 
-;; add func to simulate txtmate apple-t
-(require 'filecache)
-(defun rails-add-proj-to-file-cache (dir)
-  "Adds all the ruby and rhtml files recursively in the current directory to the file-cache"
-  (interactive "DAdd directory: ")
-    (file-cache-clear-cache)
-    (file-cache-add-directory-recursively 
-     dir (regexp-opt (list ".rb" ".rhtml" ".xml" ".js" ".yml" ".haml" ".sass" ".css")))
-    (file-cache-delete-file-regexp "\\.svn"))
+;; FUNCTIONS
+
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+ (filename (buffer-file-name)))
+    (if (not filename)
+ (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+   (message "A buffer named '%s' already exists!" new-name)
+ (progn
+   (rename-file name new-name 1)
+   (rename-buffer new-name)
+   (set-visited-file-name new-name)
+   (set-buffer-modified-p nil))))))
+
 
 (defun run-current-file ()
   "Execute or compile the current file.
@@ -163,43 +185,16 @@ File suffix is used to determine what program to run."
   ;; If there is more than one, they won't work right.
  )
 
-
-;;__________________________________________________________________________
-;;;;    Programming - Clojure
-;; closure mode
-(add-to-list 'load-path (concat home-dir "/projects/resources/clojure/clojure-mode"))
-(setq inferior-lisp-program "~/bin/clj")
-(require 'clojure-auto)
-
-;;; (defvar clj-root (concat (expand-file-name "~") "/projects/resources/clojure/"))
-;;; (setq load-path (append (list (concat clj-root "slime")
-;;; 			      (concat clj-root "slime/contrib")
-;;; 			      (concat clj-root "clojure-mode")
-;;; 			      (concat clj-root "swank-clojure"))
-;;; 			load-path))
-
-;;; ;; Clojure mode
-;;; (require 'clojure-auto)
-;;; ;; (require 'clojure-paredit) ; Uncomment if you use Paredit
- 
-;;; ;; Slime
-;;; (require 'slime)
-;;; (slime-setup)
- 
-;;; ;; clojure swank
-;;; (setq swank-clojure-jar-path (concat clj-root "/clojure/trunk/clojure.jar"))
-;;; ;alternatively, you can set up the clojure wrapper script and use that: 
-;;; ;(setq swank-clojure-binary "/path/to/cljwrapper")
- 
-;;; ; you can also set up extra classpaths, such as the classes/ directory used by AOT compilation
-;;; ;(setq swank-clojure-extra-classpaths (list "/path/to/extra/classpaths" "/even/more/classpaths"))
- 
-;;; (require 'swank-clojure-autoload)
- 
-;;; ;; is this required? I don't have this in my emacs configuration; I just execute M-x slime to start slime -- Chousuke 
-;;; (defun run-clojure ()
-;;;   "Starts clojure in Slime"
-;;;   (interactive)
-;;;   (slime 'clojure))
-
-;;; (global-set-key [f5] 'slime-eval-buffer)
+(defun swap-windows ()
+ "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
+ (t
+ (let* ((w1 (first (window-list)))
+	 (w2 (second (window-list)))
+	 (b1 (window-buffer w1))
+	 (b2 (window-buffer w2))
+	 (s1 (window-start w1))
+	 (s2 (window-start w2)))
+ (set-window-buffer w1 b2)
+ (set-window-buffer w2 b1)
+ (set-window-start w1 s2)
+ (set-window-start w2 s1)))))
