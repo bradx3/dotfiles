@@ -1,0 +1,86 @@
+//require("tab-bar.js"); // For the old classic tabs.
+require("new-tabs.js"); // For the new tabs
+
+// use history for complete helpers
+url_completion_use_bookmarks = false;
+url_completion_use_history = true;
+
+homepage = "about:blank";
+
+// reload conkerorrc
+interactive("reload-rc",
+            "Reload the Conkerorrc.",
+            function(I) { load_rc_file("/Users/brad/.conkerorrc"); });
+
+
+// middle click opens in new buffer
+require("clicks-in-new-buffer.js");
+clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND;
+
+// new bindings
+define_key(default_global_keymap, "M-t", "find-url-new-buffer");
+
+// rebound from zoom.js
+define_key(content_buffer_normal_keymap, "M--", "zoom-out-text");
+define_key(content_buffer_normal_keymap, "M-=", "zoom-in-text");
+
+// follow links in new buffer
+define_key(content_buffer_normal_keymap, "d", "follow-new-buffer-background");
+
+// eval key
+
+// switch to buffers 1-10 using keys
+function define_key_buffer_switch(key, buf_num) {
+    define_key(content_buffer_normal_keymap, key, function (I) {
+            switch_to_buffer(I.window, I.window.buffers.get_buffer(buf_num));
+        });
+}
+for (let i = 0; i < 10; ++i)
+    define_key_buffer_switch(i == 9 ? "0" : (i+1).toString(), i);
+
+// download management
+download_buffer_automatic_open_target =  OPEN_NEW_BUFFER_BACKGROUND;
+
+// password management
+session_pref("signon.rememberSignons", true);
+session_pref("signon.expireMasterPassword", false);
+session_pref("signon.SignonFileName", "signons.txt");
+
+Components.classes["@mozilla.org/login-manager;1"]
+    .getService(Components.interfaces.nsILoginManager);
+
+/* 
+ * Temporary work-around for cwd bug 
+ */ 
+default_directory = get_home_directory();
+add_hook("create_buffer_hook", 
+         function (buf) { 
+             buf.configuration.cwd = null; 
+         });
+
+function vertical_tab_bars(window) {
+    var tabBar = window.tab_bar.element;
+    var container = window.buffers.container;
+    var target = container.parentNode;
+    
+    var hbox = create_XUL(window, "hbox");
+    hbox.setAttribute("flex", "1");
+    target.insertBefore(hbox, container);
+
+    tabBar.parentNode.removeChild(tabBar);
+    hbox.appendChild(tabBar);
+    hbox.appendChild(container);
+    window.tab_bar.element.setAttribute("orient", "vertical");
+
+    add_hook.call(window, "create_buffer_hook", fix_tab_bar_width);
+}
+
+function fix_tab_bar_width(buffer) {
+    var tabBar = buffer.window.tab_bar;
+    var tabs = tabBar.element.getElementsByClassName("tab2");
+    for (var i = 0; i < tabs.length; i++) {
+	tabs[i].minWidth = 200;
+	tabs[i].maxWidth = 200;
+    }
+}
+add_hook("window_initialize_hook", vertical_tab_bars);
