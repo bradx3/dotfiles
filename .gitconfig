@@ -6,8 +6,6 @@
 [apply]
 	whitespace = nowarn
 	
-[core]
-  editor = mate -w
 [color]
   branch = auto
   diff = auto
@@ -25,5 +23,3 @@
   added = yellow
   changed = green
   untracked = cyan
-[core]
-	editor = mate -w
