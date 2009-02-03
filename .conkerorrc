@@ -1,16 +1,13 @@
 //require("tab-bar.js"); // For the old classic tabs.
 require("new-tabs.js"); // For the new tabs
+require("/Users/brad/.conkeror.d/function.js")
+register_user_stylesheet("file:///Users/brad/.conkeror.d/conkeror.css");
 
 // use history for complete helpers
 url_completion_use_bookmarks = false;
 url_completion_use_history = true;
 
 homepage = "about:blank";
-
-// reload conkerorrc
-interactive("reload-rc",
-            "Reload the Conkerorrc.",
-            function(I) { load_rc_file("/Users/brad/.conkerorrc"); });
 
 
 // middle click opens in new buffer
@@ -58,6 +55,8 @@ add_hook("create_buffer_hook",
              buf.configuration.cwd = null; 
          });
 
+
+// Change tabs bars to vertical
 function vertical_tab_bars(window) {
     var tabBar = window.tab_bar.element;
     var container = window.buffers.container;
@@ -71,16 +70,6 @@ function vertical_tab_bars(window) {
     hbox.appendChild(tabBar);
     hbox.appendChild(container);
     window.tab_bar.element.setAttribute("orient", "vertical");
-
-    add_hook.call(window, "create_buffer_hook", fix_tab_bar_width);
-}
-
-function fix_tab_bar_width(buffer) {
-    var tabBar = buffer.window.tab_bar;
-    var tabs = tabBar.element.getElementsByClassName("tab2");
-    for (var i = 0; i < tabs.length; i++) {
-	tabs[i].minWidth = 200;
-	tabs[i].maxWidth = 200;
-    }
 }
 add_hook("window_initialize_hook", vertical_tab_bars);
+
