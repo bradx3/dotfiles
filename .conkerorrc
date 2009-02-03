@@ -37,6 +37,12 @@ Components.classes["@mozilla.org/login-manager;1"]
     .getService(Components.interfaces.nsILoginManager);
 
 
+// open new urls in new buffer
+url_remoting_fn = load_url_in_new_buffer;
+
+// don't kill the last buffer in a window
+can_kill_last_buffer = false;
+
 /* 
  * Temporary work-around for cwd bug 
  */ 
