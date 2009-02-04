@@ -43,3 +43,26 @@ function vertical_tab_bars(window) {
 }
 add_hook("window_initialize_hook", vertical_tab_bars);
 
+// minimize all windows
+interactive("minimize-all-windows",
+            "Hide of show all open windows.",
+            function(I) { 
+		var toggle = function(window) {
+		    window.minimize();
+		}
+		for_each_window(toggle);
+	    });
+define_key(content_buffer_normal_keymap, "M-h", "minimize-all-windows");
+
+// apple-click opens in new tab
+function command_link_in_new_buffer(event) {
+    if (event.metaKey) {
+	open_link_in_new_buffer(event, true);
+    }
+}
+function command_clicks_in_new_buffer_listener(buffer) {
+    buffer.browser.addEventListener("click", command_link_in_new_buffer, true);
+}
+add_hook("create_buffer_hook", command_clicks_in_new_buffer_listener);
+for_each_buffer(command_clicks_in_new_buffer_listener);
+
