@@ -35,7 +35,8 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH="/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:$PATH"
+PATH=~/bin:"/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:$PATH"
+export PATH
 TZ="Australia/Sydney"
 
 HISTFILE=$HOME/.zsh_history
@@ -44,12 +45,11 @@ SAVEHIST=10000
 HOSTNAME="`hostname`"
 
 export PAGER='less'
-export PATH=$PATH:~/bin
 export SHELL="/bin/zsh"
 export RUBYLIB="/Users/brad/projects/scripts/lib"
 
-export EDITOR="emacs"
-export GIT_EDITOR="emacs"
+export EDITOR="emacsclient"
+export GIT_EDITOR="emacsclient"
 
 if [[ -f "/usr/bin/mate_wait" ]] then
 #  export EDITOR="mate_wait"
