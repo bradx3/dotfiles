@@ -1,4 +1,8 @@
 require("new-tabs.js"); // For the new tabs
+require("page-modes/gmail.js");
+
+url_remoting_fn = load_url_in_new_window;
+browser_default_open_target = OPEN_NEW_BUFFER_BACKGROUND;
 
 require("/Users/brad/.conkeror.d/functions.js");
 require("/Users/brad/.conkeror.d/webjumps.js");
@@ -25,6 +29,7 @@ define_key(content_buffer_normal_keymap, "M-=", "zoom-in-text");
 // follow links in new buffer
 define_key(content_buffer_normal_keymap, "d", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "h", "go-home");
+define_key(content_buffer_normal_keymap, "b", "go-back");
 
 define_key(content_buffer_normal_keymap, "M-c", "cmd_copy");
 define_key(content_buffer_normal_keymap, "M-a", "cmd_selectAll");
@@ -33,6 +38,7 @@ define_key(content_buffer_normal_keymap, "M-q", "quit");
 
 // download management
 download_buffer_automatic_open_target =  OPEN_NEW_BUFFER_BACKGROUND;
+
 
 // password management
 session_pref("signon.rememberSignons", true);
