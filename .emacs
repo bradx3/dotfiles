@@ -1,3 +1,5 @@
+(server-start)
+
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
 (column-number-mode)
@@ -42,6 +44,13 @@
 (setq auto-mode-alist  (cons '(".\.rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rake$" . ruby-mode) auto-mode-alist))
+(defun ruby-eval-buffer () (interactive)
+"Evaluate the buffer with ruby."
+(shell-command-on-region (point-min) (point-max) "ruby"))
+;;; (defun my-ruby-mode-hook ()
+;;;   (define-key ruby-mode-map "\C-c\C-a" 'ruby-eval-buffer))
+;;; (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
+
 ;; haml mode
 (require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
@@ -176,8 +185,7 @@ File suffix is used to determine what program to run."
  '(column-number-mode t)
  '(fringe-mode 0 nil (fringe))
  '(paren-match-face (quote paren-face-match-light))
- '(paren-sexp-mode t)
- '(transient-mark-mode t))
+ '(paren-sexp-mode t))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
