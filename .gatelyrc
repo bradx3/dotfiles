@@ -1,0 +1,29 @@
+main_disk = "/dev/disk0s2"
+unused_disk_space = "df -h | grep \"#{ main_disk }\" | awk '{print \"Disk free: \", $4}'"
+load = "uptime | awk -F'load averages:' '{ print \"CPU:\", $2 }'"
+
+panel(:commands => [ unused_disk_space, load ], 
+      :frame => [ 5, 5, 150, 40], 
+      :refresh => 5)
+
+panel(:frame => [ 5, 690, 300, 80 ],
+      :commands => [ "icalBuddy eventsToday+1" ]) 
+
+
+# ITunes status
+# framework("ScriptingBridge")
+# ITUNES_STATES = { 
+#   1800426352 => "Paused", 
+#   1800426320 => "Playing", 
+#   1800426323 => "Stopped"
+# }
+
+# panel(:frame => [ 5, 5, 150, 70], 
+#       :refresh => 5) do
+#   itunes = SBApplication.applicationWithBundleIdentifier("com.apple.itunes")
+#   state = ITUNES_STATES[itunes.playerState] || "Unknown"
+  
+#   "iTunes: #{ state }"
+# end
+
+#panel(:frame => [ 1000, 5, 250, 40 ], :refresh => 5) { Time.now }

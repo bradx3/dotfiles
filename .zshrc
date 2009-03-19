@@ -107,6 +107,7 @@ alias top="top -o cpu"
 alias mtop="top -o rsize"
 alias sr="screen -r"
 alias all_rw="sudo find . -type d -exec sudo chmod 0777 {} \; && sudo find . -type f -exec sudo chmod 0666 {} \;"
+alias port="nice port"
 
 #mysql helpers
 alias mysqlstart='sudo /opt/local/bin/mysqld_safe5'

@@ -32,24 +32,29 @@
 (add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
 
 
+;; set smex
+(add-to-list 'load-path (concat home-dir ".site-lisp/smex/"))
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c M-x") 'smex-update-and-run)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
 ;; MODES
 
 ;; loads diff mode when git commit file loaded
 (setq auto-mode-alist  (cons '("COMMIT_EDITMSG" . diff-mode) auto-mode-alist))
-;; loads html mode when erb file load
-(setq auto-mode-alist  (cons '(".html\.erb$" . html-mode) auto-mode-alist))
-
 ;; loads ruby mode when a .rb file is opened.
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(setq auto-mode-alist  (cons '(".\.rb$" . ruby-mode) auto-mode-alist))
-(setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rake$" . ruby-mode) auto-mode-alist))
-(defun ruby-eval-buffer () (interactive)
-"Evaluate the buffer with ruby."
-(shell-command-on-region (point-min) (point-max) "ruby"))
-;;; (defun my-ruby-mode-hook ()
-;;;   (define-key ruby-mode-map "\C-c\C-a" 'ruby-eval-buffer))
-;;; (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
+;; loads html mode when erb file load
+(setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
+;;; (defun ruby-eval-buffer () (interactive)
+;;; "Evaluate the buffer with ruby."
+;;; (shell-command-on-region (point-min) (point-max) "ruby"))
 
 ;; haml mode
 (require 'haml-mode nil 't)
@@ -69,6 +74,7 @@
 ;; Rinari (rails helpers)
 (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 (require 'rinari)
+
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
@@ -130,7 +136,9 @@
 (setq color-theme-is-global t)
 (load-file (concat home-dir ".site-lisp/zenburn.el"))
 (load-file (concat home-dir ".site-lisp/twilight.el"))
-(color-theme-twilight)
+(load-file (concat home-dir ".site-lisp/color-theme-subdued.el"))
+;(color-theme-twilight)
+(color-theme-subdued)
 
 ;; FUNCTIONS
 
@@ -206,3 +214,14 @@ File suffix is used to determine what program to run."
  (set-window-buffer w2 b1)
  (set-window-start w1 s2)
  (set-window-start w2 s1)))))
+
+(defun restart-passenger ()
+  "Restart passenger using the current rinari root" (interactive)
+  (shell-command (concat "touch " (rinari-root) "tmp/restart.txt"))
+)
+(global-set-key 
+  (kbd "C-c ' p") 'restart-passenger)
+
+
+;; final setup of smex
+(smex-initialize)
