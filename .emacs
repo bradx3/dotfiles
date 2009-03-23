@@ -223,5 +223,22 @@ File suffix is used to determine what program to run."
   (kbd "C-c ' p") 'restart-passenger)
 
 
+;; some rinari helpers
+(defun kill-rinari-buffer (buffer)
+  "Kills the given buffer if it is linked to a file in the current rinari project."
+  (if (rinari-buffer-p buffer)
+     (kill-buffer buffer)))
+
+(defun rinari-buffer-p (buffer) 
+  "Returns true if buffer belongs to the current rinari project"
+  (and (buffer-file-name buffer)
+       (string-match (rinari-root) (buffer-file-name buffer))))
+
+(defun kill-all-rinari-buffers ()
+  "Kills all buffers linked to the current rinari project"
+  (interactive)
+  (mapcar (function kill-rinari-buffer) (buffer-list)))
+
+
 ;; final setup of smex
 (smex-initialize)
