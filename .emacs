@@ -74,6 +74,9 @@
 ;; Rinari (rails helpers)
 (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 (require 'rinari)
+;; Markdown mode
+(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
+(require 'markdown-mode)
 
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
@@ -224,20 +227,23 @@ File suffix is used to determine what program to run."
 
 
 ;; some rinari helpers
-(defun kill-rinari-buffer (buffer)
+(defun kill-buffers-in-subdir (subdir buffer)
   "Kills the given buffer if it is linked to a file in the current rinari project."
-  (if (rinari-buffer-p buffer)
+  (if (buffer-in-subdir-p subdir buffer)
      (kill-buffer buffer)))
 
-(defun rinari-buffer-p (buffer) 
+(defun buffer-in-subdir-p (subdir buffer) 
   "Returns true if buffer belongs to the current rinari project"
   (and (buffer-file-name buffer)
-       (string-match (rinari-root) (buffer-file-name buffer))))
+       (string-match subdir (buffer-file-name buffer))))
 
 (defun kill-all-rinari-buffers ()
   "Kills all buffers linked to the current rinari project"
   (interactive)
-  (mapcar (function kill-rinari-buffer) (buffer-list)))
+  (let ((path (rinari-root)))
+    (if path
+	(dolist (buffer (buffer-list))
+	  (kill-buffers-in-subdir path buffer)))))
 
 
 ;; final setup of smex
