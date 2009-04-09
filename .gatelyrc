@@ -1,29 +1,66 @@
-main_disk = "/dev/disk0s2"
-unused_disk_space = "df -h | grep \"#{ main_disk }\" | awk '{print \"Disk free: \", $4}'"
-load = "uptime | awk -F'load averages:' '{ print \"CPU:\", $2 }'"
+# TODO
+# Graph some swim.rb
+#
 
-panel(:commands => [ unused_disk_space, load ], 
-      :frame => [ 5, 5, 150, 40], 
-      :refresh => 5)
+###
+# Excecutes the given df command and returns the free space for the first
+# device returned.
+###
+def df_free_space(cmd)
+  output = `#{ cmd }`.split("\n")
+  output = output[1].split
+  return output[3].strip
+end
 
-panel(:frame => [ 5, 690, 300, 80 ],
-      :commands => [ "icalBuddy eventsToday+1" ]) 
-
-
-# ITunes status
-# framework("ScriptingBridge")
-# ITUNES_STATES = { 
-#   1800426352 => "Paused", 
-#   1800426320 => "Playing", 
-#   1800426323 => "Stopped"
-# }
-
-# panel(:frame => [ 5, 5, 150, 70], 
-#       :refresh => 5) do
-#   itunes = SBApplication.applicationWithBundleIdentifier("com.apple.itunes")
-#   state = ITUNES_STATES[itunes.playerState] || "Unknown"
-  
-#   "iTunes: #{ state }"
+# ###
+# # Executes the given bwm-ng command and returns the total value.
+# ###
+# def bmg_value(cmd)
+#   output = `#{ cmd }`
+#   output = output.split("  ")
+#   return output.last.strip
 # end
 
-#panel(:frame => [ 1000, 5, 250, 40 ], :refresh => 5) { Time.now }
+# panel(:left => 15,
+#       :bottom => 15,
+#       :refresh => 5) do
+
+#   load = "uptime | awk -F'load averages:' '{ print $2 }'"
+#   diskuse = "bwm-ng -c 2 -o plain -i ioservice | grep total"
+#   netuse = "bwm-ng -c 2 -o plain  | grep total"
+
+#   lines = []
+#   lines << "Net:    #{ bmg_value(netuse) }"
+#   lines << "Disk:   #{ bmg_value(diskuse) }"
+#   cur_load = `#{ load }`
+#   lines << "Load: #{ cur_load }"
+
+#   lines.join("\n")
+# end
+
+long_time = 15 * 60
+
+panel(:right => 1265,
+      :bottom => 15,
+      :width => 250,
+      :command => "icalBuddy eventsToday+1", 
+      :refresh => long_time) 
+
+panel(:left => 15,
+      :bottom => 15, 
+      :refresh => long_time) do
+  lines = []
+
+  cmd = "df -h /"
+  lines << "Local:    #{ df_free_space(cmd) }"
+
+  cmd = "ssh home \"df -h /home\""
+  lines << "Clamps: #{ df_free_space(cmd) }"
+
+  lines.join("\n")
+end
+
+panel(:left => 15, 
+      :top => 762, 
+      :command => "/Users/brad/projects/scripts/net_usage.rb",
+      :refresh => long_time)
