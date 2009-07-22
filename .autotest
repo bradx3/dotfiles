@@ -3,7 +3,7 @@
 # require 'autotest/redishgreenish'
 require 'autotest/redgreen'
 require 'autotest/growl'
-
+require 'autotest/fsevent'
 
 module Autotest::Growl  
   def self.image_growl title, msg, img, pri=0, stick=""  

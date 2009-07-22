@@ -35,7 +35,8 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH=~/bin:"/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:$PATH"
+PATH=~/bin:"/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH"
+
 export PATH
 TZ="Australia/Sydney"
 
@@ -243,3 +244,13 @@ zstyle ':completion:*:ssh:*' tag-order \
 zstyle ':completion:*:ssh:*' group-order \
    hosts-domain hosts-host users hosts-ipaddr
 zstyle '*' single-ignored show
+
+
+case $TERM in
+    *xterm*|ansi)
+		function settab { print -Pn "\e]1;%n@%m: %~\a" }
+		function settitle { print -Pn "\e]2;%n@%m: %~\a" }
+		function chpwd { settab;settitle }
+		settab;settitle
+        ;;
+esac

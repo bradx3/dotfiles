@@ -31,7 +31,6 @@
 (add-to-list 'load-path (concat home-dir ".site-lisp"))
 (add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
 
-
 ;; set smex
 (add-to-list 'load-path (concat home-dir ".site-lisp/smex/"))
 (require 'smex)
@@ -48,6 +47,8 @@
 ;; loads ruby mode when a .rb file is opened.
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rjs$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rjs.js$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rake$" . ruby-mode) auto-mode-alist))
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
@@ -81,6 +82,10 @@
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
+(global-set-key "\C-x\C-g" 'magit-status)
+;; egg
+;(add-to-list 'load-path (concat home-dir ".site-lisp/egg"))
+;(require 'egg)
 ;; yasnippet
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/yasnippet-0.5.7"))
 (require 'yasnippet)
@@ -89,7 +94,14 @@
 ;; closure mode
 (add-to-list 'load-path (concat home-dir "/projects/resources/clojure/clojure-mode"))
 (setq inferior-lisp-program "~/bin/clj")
-(require 'clojure-auto)
+;(require 'clojure-auto)
+(autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
+;; php mode
+(setq auto-mode-alist
+  (cons '("\\.php\\w?" . php-mode) auto-mode-alist))
+(autoload 'php-mode "php-mode" "PHP mode." t)
+
+(require 'autotest)
 
 ;; KEY BINDINGS
 
@@ -194,9 +206,11 @@ File suffix is used to determine what program to run."
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
  '(paren-match-face (quote paren-face-match-light))
- '(paren-sexp-mode t))
+ '(paren-sexp-mode t)
+ '(transient-mark-mode t))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -246,5 +260,19 @@ File suffix is used to determine what program to run."
 	  (kill-buffers-in-subdir path buffer)))))
 
 
+(defun copy-line (&optional arg)
+  "Do a kill-line but copy rather than kill.  This function directly calls
+kill-line, so see documentation of kill-line for how to use it including prefix
+argument and relevant variables.  This function works by temporarily making the
+buffer read-only, so I suggest setting kill-read-only-ok to t."
+  (interactive "P")
+  (toggle-read-only 1)
+  (kill-line arg)
+  (toggle-read-only 0))
+ 
+(setq-default kill-read-only-ok t)
+(global-set-key "\C-c\C-k" 'copy-line)
+
 ;; final setup of smex
 (smex-initialize)
+
