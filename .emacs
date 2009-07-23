@@ -82,7 +82,7 @@
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
-(global-set-key "\C-x\C-g" 'magit-status)
+(global-set-key "\C-c\C-v" 'magit-status)
 ;; egg
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/egg"))
 ;(require 'egg)
@@ -234,8 +234,7 @@ File suffix is used to determine what program to run."
 
 (defun restart-passenger ()
   "Restart passenger using the current rinari root" (interactive)
-  (shell-command (concat "touch " (rinari-root) "tmp/restart.txt"))
-)
+  (shell-command (concat "touch " (rinari-root) "tmp/restart.txt")))
 (global-set-key 
   (kbd "C-c ' p") 'restart-passenger)
 
@@ -272,6 +271,13 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
  
 (setq-default kill-read-only-ok t)
 (global-set-key "\C-c\C-k" 'copy-line)
+
+;; open up my org file if it's around
+(if (file-exists-p "~/Documents/brad.org")
+    (find-file "~/Documents/brad.org"))
+
+;; two panes
+(split-window-horizontally)
 
 ;; final setup of smex
 (smex-initialize)
