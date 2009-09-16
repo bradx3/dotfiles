@@ -44,6 +44,7 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 HOSTNAME="`hostname`"
+REPORTTIME=10 # print elapsed time when more than 10 seconds
 
 export PAGER='less'
 export SHELL="/bin/zsh"
@@ -115,7 +116,8 @@ alias mysqlstart='sudo /opt/local/bin/mysqld_safe5'
 # alias mysqlstop='/opt/local/bin/mysqladmin5 -u root -p shutdown'
 
 # rails helpers 
-alias ss="rm -f log/development.log && ruby script/server"
+alias ss="rm -f log/development.log; rm -f log/test.log* ; thin start"
+alias ssd="rm -f log/development.log && ./script/server webrick --debugger"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
 
@@ -156,7 +158,7 @@ function precmd {
   PS1="[$PR_MAGENTA%n$PR_NO_COLOR@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_CYAN%2c $PR_RED$(parse_git_branch)$PR_NO_COLOR]%(!.#.$) "
 }
 
-RPS1="$PR_MAGENTA(%D{%I:%M %p %d-%m-%y})$PR_NO_COLOR"
+RPS1="\$(rvm-prompt)$PR_MAGENTA(%D{%I:%M %p %d-%m-%y})$PR_NO_COLOR"
 
 
 
@@ -254,3 +256,23 @@ case $TERM in
 		settab;settitle
         ;;
 esac
+
+if [ "$TERM" = "dumb" ]                                                                                            
+then                                                                                                               
+  unsetopt zle                                                                                                     
+  unsetopt prompt_cr                                                                                               
+  unsetopt prompt_subst                                                                                            
+  unfunction precmd                                                                                                
+  unfunction preexec                                                                                               
+  PS1='$ '                                                                                                         
+fi               
+
+
+source /Users/brad/.profile
+
+
+# # RVM
+if [ -s ~/.rvm/scripts/rvm ] ; then 
+    source ~/.rvm/scripts/rvm ;
+#    rvm system;
+fi

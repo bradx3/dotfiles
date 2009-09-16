@@ -1,8 +1,8 @@
 # PASSED = :blue 
 # FAILED = :yellow 
 # require 'autotest/redishgreenish'
-require 'autotest/redgreen'
-require 'autotest/growl'
+#require 'autotest/redgreen'
+#require 'autotest/growl'
 require 'autotest/fsevent'
 
 module Autotest::Growl  
@@ -11,18 +11,18 @@ module Autotest::Growl
     system cmd
   end  
   
-  Autotest.add_hook :ran_command do |autotest|  
-  results = [autotest.results].flatten.join("\n")
-      output = results.slice(/(\d+)\stests,\s(\d+)\sassertions,\s(\d+)\sfailures,\s(\d+)\serrors/)
-      if output
-        if $~[3].to_i > 0 || $~[4].to_i > 0
-          image_growl "FAIL", "#{output}", "~/Library/autotest/rails_fail.png", 2
-	  %x{ say "Tests failed" }
-        else
-          image_growl "Pass", "#{output}", "~/Library/autotest/rails_ok.png"
-        end
-      end
-  end  
+#   Autotest.add_hook :ran_command do |autotest|  
+#   results = [autotest.results].flatten.join("\n")
+#       output = results.slice(/(\d+)\stests,\s(\d+)\sassertions,\s(\d+)\sfailures,\s(\d+)\serrors/)
+#       if output
+#         if $~[3].to_i > 0 || $~[4].to_i > 0
+#           image_growl "FAIL", "#{output}", "~/Library/autotest/rails_fail.png", 2
+# 	  %x{ say "Tests failed" }
+#         else
+#           image_growl "Pass", "#{output}", "~/Library/autotest/rails_ok.png"
+#         end
+#       end
+#   end  
       
 end  
   

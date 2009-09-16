@@ -1,5 +1,6 @@
-(server-start)
+;;(server-start)
 
+(setq-default line-spacing 2)
 (setq inhibit-splash-screen t)
 (setq default-major-mode 'text-mode)
 (column-number-mode)
@@ -12,6 +13,7 @@
 (windmove-default-keybindings 'meta)
 ; change yes-or-no to y-or-n
 (fset 'yes-or-no-p 'y-or-n-p)
+(set-default 'truncate-lines t)
 
 ;; set ido mode
 (ido-mode t)
@@ -98,10 +100,23 @@
 (autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
 ;; php mode
 (setq auto-mode-alist
-  (cons '("\\.php\\w?" . php-mode) auto-mode-alist))
-(autoload 'php-mode "php-mode" "PHP mode." t)
+  (cons '("\\.php\\w?" . html-mode) auto-mode-alist))
+(setq auto-mode-alist
+  (cons '("\\.inc" . html-mode) auto-mode-alist))
 
-(require 'autotest)
+;(require 'toggle)
+;(require 'autotest)
+
+
+;; (load "nxhtml/autostart.el")
+;;  (setq
+;;   nxhtml-global-minor-mode t
+;;   mumamo-chunk-coloring 'submode-colored
+;;   nxhtml-skip-welcome t
+;;   indent-region-mode t
+;;   rng-nxml-auto-validate-flag nil
+;;   nxml-degraded t)
+;;  (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo-mode))
 
 ;; KEY BINDINGS
 
@@ -109,6 +124,7 @@
 (keyboard-translate ?\C-h ?\C-?)
 ;; Define M-h to help  ---  please don't add an extra ' after help!
 (global-set-key "\M-h" 'help)
+
 
 ;; BACKUP FILES
 
@@ -209,8 +225,7 @@ File suffix is used to determine what program to run."
  '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
  '(paren-match-face (quote paren-face-match-light))
- '(paren-sexp-mode t)
- '(transient-mark-mode t))
+ '(paren-sexp-mode t))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -235,8 +250,8 @@ File suffix is used to determine what program to run."
 (defun restart-passenger ()
   "Restart passenger using the current rinari root" (interactive)
   (shell-command (concat "touch " (rinari-root) "tmp/restart.txt")))
-(global-set-key 
-  (kbd "C-c ' p") 'restart-passenger)
+
+(global-set-key (kbd "C-c ' p") 'restart-passenger)
 
 
 ;; some rinari helpers
@@ -272,13 +287,41 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 (setq-default kill-read-only-ok t)
 (global-set-key "\C-c\C-k" 'copy-line)
 
+;; ORG MODE
 ;; open up my org file if it's around
-(if (file-exists-p "~/Documents/brad.org")
-    (find-file "~/Documents/brad.org"))
+(defun open-my-org ()
+  "Opens my org file"
+  (interactive)
+  (if (file-exists-p "~/Documents/brad.org")
+      (find-file "~/Documents/brad.org")))
+(global-set-key "\C-c\ o" 'open-my-org)
+(setq org-todo-keywords
+      '((sequence "TODO" "TODAY" "STARTED" "DONE")))
+(open-my-org)
+
+;; Open up scratch file
+(defun open-my-scratch ()
+  "Opens my scratch file"
+  (interactive)
+  (if (file-exists-p "~/Documents/*scratch*")
+      (find-file "~/Documents/*scratch*")))
+(global-set-key "\C-c\ s" 'open-my-scratch)
+(kill-buffer "*scratch*")
+(open-my-scratch)
+
+(defun iwb ()
+  "Indents the entire buffer"
+  (interactive)
+  (indent-region (point-min) (point-max) nil))
 
 ;; two panes
 (split-window-horizontally)
 
 ;; final setup of smex
 (smex-initialize)
+
+;; setup path
+(when (equal system-type 'darwin)
+  (setenv "PATH" (concat "/opt/local/bin:/usr/local/bin:" (getenv "PATH")))
+  (push "/opt/local/bin" exec-path))
 
