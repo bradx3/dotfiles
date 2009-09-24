@@ -111,9 +111,11 @@ alias sr="screen -r"
 alias all_rw="sudo find . -type d -exec sudo chmod 0777 {} \; && sudo find . -type f -exec sudo chmod 0666 {} \;"
 alias port="nice port"
 
-#mysql helpers
-alias mysqlstart='sudo /opt/local/bin/mysqld_safe5'
-# alias mysqlstop='/opt/local/bin/mysqladmin5 -u root -p shutdown'
+#db helpers
+alias mystart="sudo /opt/local/share/mysql5/mysql/mysql.server start"
+alias mystop="sudo /opt/local/share/mysql5/mysql/mysql.server stop"
+alias pgstart="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper start"
+alias pgstop="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop"
 
 # rails helpers 
 alias ss="rm -f log/development.log; rm -f log/test.log* ; thin start"
@@ -140,6 +142,10 @@ alias gca='git commit -v -a'
 alias gb='git branch'
 alias gba='git branch -a'
 alias gpcd='git push && cap deploy'
+
+#heroku helpers
+alias hp="git push heroku master"
+alias hl="heroku logs"
 
 ###
 # get the name of the branch we are on
