@@ -75,34 +75,34 @@
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 ;; Rinari (rails helpers)
-(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
-(require 'rinari)
+;;; (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
+;;; (require 'rinari)
 ;; Markdown mode
-(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
-(require 'markdown-mode)
+;;(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
+;;(require 'markdown-mode)
 
 ;; magit
-(add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
-(require 'magit)
-(global-set-key "\C-c\C-v" 'magit-status)
+;;; (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
+;;; (require 'magit)
+;;; (global-set-key "\C-c\C-v" 'magit-status)
 ;; egg
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/egg"))
 ;(require 'egg)
 ;; yasnippet
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/yasnippet-0.5.7"))
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory (concat home-dir ".site-lisp/snippets"))
+;;; (require 'yasnippet)
+;;; (yas/initialize)
+;;; (yas/load-directory (concat home-dir ".site-lisp/snippets"))
 ;; closure mode
-(add-to-list 'load-path (concat home-dir "/projects/resources/clojure/clojure-mode"))
-(setq inferior-lisp-program "~/bin/clj")
-;(require 'clojure-auto)
-(autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
-;; php mode
-(setq auto-mode-alist
-  (cons '("\\.php\\w?" . html-mode) auto-mode-alist))
-(setq auto-mode-alist
-  (cons '("\\.inc" . html-mode) auto-mode-alist))
+;;; (add-to-list 'load-path (concat home-dir "/projects/resources/clojure/clojure-mode"))
+;;; (setq inferior-lisp-program "~/bin/clj")
+;;; ;(require 'clojure-auto)
+;;; (autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
+;;; ;; php mode
+;;; (setq auto-mode-alist
+;;;   (cons '("\\.php\\w?" . html-mode) auto-mode-alist))
+;;; (setq auto-mode-alist
+;;;   (cons '("\\.inc" . html-mode) auto-mode-alist))
 
 ;(require 'toggle)
 ;(require 'autotest)
@@ -325,3 +325,25 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
   (setenv "PATH" (concat "/opt/local/bin:/usr/local/bin:" (getenv "PATH")))
   (push "/opt/local/bin" exec-path))
 
+
+
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))
+
+
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))

@@ -35,8 +35,8 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH=~/bin:"/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH"
-
+PATH="/Users/bwilson/bin:/Users/bwilson/.gem/ruby/1.8/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH"
+#PATH=~/projects/readingeggs/vendor/plugins/cucumber/bin:$PATH
 export PATH
 TZ="Australia/Sydney"
 
@@ -44,11 +44,11 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 HOSTNAME="`hostname`"
-REPORTTIME=10 # print elapsed time when more than 10 seconds
+REPORTTIME=120 # print elapsed time when more than 10 seconds
 
 export PAGER='less'
 export SHELL="/bin/zsh"
-export RUBYLIB="/Users/brad/projects/scripts/lib"
+export RUBYLIB="~/projects/scripts/lib"
 
 export EDITOR="emacsclient"
 export GIT_EDITOR="emacsclient"
@@ -103,7 +103,7 @@ alias l="ls -laFhG"
 alias m="mate ."
 alias mw="mate -w"
 alias myip="ifconfig | grep 192.168 || ifconfig | grep 10.32"
-alias psg="ps ax | grep "
+alias psg="ps ax | grep -i "
 alias wget="wget -c"
 alias top="top -o cpu"
 alias mtop="top -o rsize"
@@ -118,10 +118,14 @@ alias pgstart="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-serve
 alias pgstop="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop"
 
 # rails helpers 
-alias ss="rm -f log/development.log; rm -f log/test.log* ; thin start"
-alias ssd="rm -f log/development.log && ./script/server webrick --debugger"
+alias ss="rm -f log/*.log; thin start"
+alias ssd="rm -f log/*.log; ./script/server webrick --debugger"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
+alias s="spec -f p spec/models"
+alias c="cucumber"
+alias lunchtime="~/bin/recov"
+alias rg="rake routes | grep -i"
 
 # svn helpers
 alias sst="svn st"
@@ -134,14 +138,15 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 
 # git helpers
 alias gst='git status'
-alias gl='git pull'
-alias gp='git push'
+alias gl='git pull origin staging'
+alias gp='git push origin staging'
 alias gd='git diff | mate'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gb='git branch'
 alias gba='git branch -a'
 alias gpcd='git push && cap deploy'
+alias gr="git reset --hard HEAD"
 
 #heroku helpers
 alias hp="git push heroku master"
@@ -274,11 +279,14 @@ then
 fi               
 
 
-source /Users/brad/.profile
-
+if [ -s ~/.profile ] ; then
+    source .profile
+fi
 
 # # RVM
 if [ -s ~/.rvm/scripts/rvm ] ; then 
     source ~/.rvm/scripts/rvm ;
 #    rvm system;
 fi
+
+cd ~/projects/readingeggs
