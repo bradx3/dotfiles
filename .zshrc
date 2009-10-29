@@ -51,7 +51,7 @@ export SHELL="/bin/zsh"
 export RUBYLIB="~/projects/scripts/lib"
 
 export EDITOR="emacsclient"
-export GIT_EDITOR="emacsclient"
+export GIT_EDITOR="emacs -q"
 
 if [[ -f "/usr/bin/mate_wait" ]] then
 #  export EDITOR="mate_wait"
@@ -110,6 +110,7 @@ alias mtop="top -o rsize"
 alias sr="screen -r"
 alias all_rw="sudo find . -type d -exec sudo chmod 0777 {} \; && sudo find . -type f -exec sudo chmod 0666 {} \;"
 alias port="nice port"
+alias less="less -r"
 
 #db helpers
 alias mystart="sudo /opt/local/share/mysql5/mysql/mysql.server start"
@@ -121,11 +122,16 @@ alias pgstop="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server
 alias ss="rm -f log/*.log; thin start"
 alias ssd="rm -f log/*.log; ./script/server webrick --debugger"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
+alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
-alias s="spec -f p spec/models"
+alias s="spec -f p"
 alias c="cucumber"
+#alias tc="rm coverage.data; rcov --aggregate coverage.data --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/,.gem\/ -o coverage /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
+alias tc="rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
+
 alias lunchtime="~/bin/recov"
 alias rg="rake routes | grep -i"
+alias rake="rake --trace"
 
 # svn helpers
 alias sst="svn st"
