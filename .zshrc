@@ -35,7 +35,8 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH="/Users/bwilson/bin:/Users/bwilson/.gem/ruby/1.8/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH"
+PATH=~/bin:~/.gem/ruby/1.8/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH
+
 #PATH=~/projects/readingeggs/vendor/plugins/cucumber/bin:$PATH
 export PATH
 TZ="Australia/Sydney"
@@ -50,12 +51,10 @@ export PAGER='less'
 export SHELL="/bin/zsh"
 export RUBYLIB="~/projects/scripts/lib"
 
-export EDITOR="emacsclient"
+export EDITOR="emacs -q"
 export GIT_EDITOR="emacs -q"
 
 if [[ -f "/usr/bin/mate_wait" ]] then
-#  export EDITOR="mate_wait"
-#  export GIT_EDITOR="mate_wait"
   export CLICOLOR=1
   export LSCOLORS=gxfxcxdxbxegedabagacad 
 else
@@ -294,5 +293,3 @@ if [ -s ~/.rvm/scripts/rvm ] ; then
     source ~/.rvm/scripts/rvm ;
 #    rvm system;
 fi
-
-cd ~/projects/readingeggs
