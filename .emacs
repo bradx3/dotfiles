@@ -88,9 +88,9 @@
 ;;(require 'markdown-mode)
 
 ;; magit
-;;; (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
-;;; (require 'magit)
-;;; (global-set-key "\C-c\C-v" 'magit-status)
+(add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
+(require 'magit)
+(global-set-key "\C-c,g" 'magit-status)
 ;; egg
 ;(add-to-list 'load-path (concat home-dir ".site-lisp/egg"))
 ;(require 'egg)
