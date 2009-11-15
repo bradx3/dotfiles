@@ -118,8 +118,8 @@ alias pgstart="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-serve
 alias pgstop="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop"
 
 # rails helpers 
-alias ss="rm -f log/*.log; thin start"
-alias ssd="rm -f log/*.log; ./script/server webrick --debugger"
+alias ss="thin start"
+alias ssd="./script/server webrick --debugger"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"

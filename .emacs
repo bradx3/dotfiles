@@ -79,10 +79,9 @@
 ;; and load it
 (require 'feature-mode)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
-
 ;; Rinari (rails helpers)
-;;; (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
-;;; (require 'rinari)
+(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
+(require 'rinari)
 ;; Markdown mode
 ;;(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
 ;;(require 'markdown-mode)
