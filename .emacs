@@ -82,6 +82,8 @@
 ;; Rinari (rails helpers)
 (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 (require 'rinari)
+(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv")
+
 ;; Markdown mode
 ;;(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
 ;;(require 'markdown-mode)
