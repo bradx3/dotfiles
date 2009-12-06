@@ -335,3 +335,7 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
   (setenv "PATH" (concat "/opt/local/bin:/usr/local/bin:" (getenv "PATH")))
   (push "/opt/local/bin" exec-path))
 
+(setq browse-url-browser-function 'browse-url-default-macosx-browser
+      delete-by-moving-to-trash t)
+
+(add-to-list 'ido-ignore-files "\\.DS_Store")
