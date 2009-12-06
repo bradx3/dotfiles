@@ -333,7 +333,8 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 ;; setup path
 (when (equal system-type 'darwin)
   (setenv "PATH" (concat "/opt/local/bin:/usr/local/bin:" (getenv "PATH")))
-  (push "/opt/local/bin" exec-path))
+  (push "/opt/local/bin" exec-path)
+  (push "/usr/local/bin" exec-path))
 
 (setq browse-url-browser-function 'browse-url-default-macosx-browser
       delete-by-moving-to-trash t)

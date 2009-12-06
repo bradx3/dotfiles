@@ -54,7 +54,8 @@ export RUBYLIB="~/projects/scripts/lib"
 export EDITOR="emacs -q"
 export GIT_EDITOR="emacs -q"
 
-if [[ -f "/usr/bin/mate_wait" ]] then
+if [[ `uname` == "Darwin" ]] then
+#[[ -f "/usr/bin/mate_wait" ]] then
   export CLICOLOR=1
   export LSCOLORS=gxfxcxdxbxegedabagacad 
 else
