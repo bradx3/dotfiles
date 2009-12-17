@@ -200,32 +200,13 @@
 
 
 (defun run-current-file ()
-  "Execute or compile the current file.
-For example, if the current buffer is the file x.pl,
-then it'll call “perl x.pl” in a shell.
-The file can be php, perl, python, bash, java.
-File suffix is used to determine what program to run."
-(interactive)
+  "Execute or compile the current file."
+  (interactive)
   (let (ext-map file-name file-ext prog-name cmd-str)
-; get the file name
-; get the program name
-; run it
-    (setq ext-map
-          '(
-            ("php" . "php")
-            ("pl" . "perl")
-            ("py" . "python")
-            ("sh" . "bash")
-            ("java" . "javac")
-            ("rb" . "ruby")
-            )
-          )
-    (setq file-name (buffer-file-name))
-    (setq file-ext (file-name-extension file-name))
-    (setq prog-name (cdr (assoc file-ext ext-map)))
-    (setq cmd-str (concat prog-name " " file-name))
-    (shell-command cmd-str)))
+    (shell-command (buffer-file-name))))
 (global-set-key (kbd "<f7>") 'run-current-file)
+
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
