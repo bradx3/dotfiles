@@ -27,11 +27,25 @@
 (icomplete-mode 1)
 (set-face-background 'ido-first-match "aqua")
 (set-face-foreground 'ido-subdir "lightBlue")
+(add-to-list 'ido-ignore-files "\\.DS_Store")
 
 ;; directory to put various el files into
 (defvar home-dir (concat (expand-file-name "~") "/"))
 (add-to-list 'load-path (concat home-dir ".site-lisp"))
 (add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
+
+;; two panes
+(split-window-horizontally)
+
+;; setup path
+(when (equal system-type 'darwin)
+  (setenv "PATH" (concat "/opt/local/bin:/usr/local/bin:" (getenv "PATH")))
+  (push "/opt/local/bin" exec-path)
+  (push "/usr/local/bin" exec-path))
+
+;; use default mac browser
+(setq browse-url-browser-function 'browse-url-default-macosx-browser
+      delete-by-moving-to-trash t)
 
 ;; set smex
 (add-to-list 'load-path (concat home-dir ".site-lisp/smex/"))
@@ -305,19 +319,29 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
   (interactive)
   (indent-region (point-min) (point-max) nil))
 
-;; two panes
-(split-window-horizontally)
+
+; http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
+(defun djcb-duplicate-line (&optional commentfirst)
+  "comment line at point; if COMMENTFIRST is non-nil, comment the original" 
+  (interactive)
+  (beginning-of-line)
+  (push-mark)
+  (end-of-line)
+  (let ((str (buffer-substring (region-beginning) (region-end))))
+    (when commentfirst
+    (comment-region (region-beginning) (region-end)))
+    (insert-string
+      (concat (if (= 0 (forward-line 1)) "" "\n") str "\n"))
+    (forward-line -1)))
+
+;; duplicate a line
+(global-set-key (kbd "C-c y") 'djcb-duplicate-line)
+;; duplicate a line and comment the first
+(global-set-key (kbd "C-c c") (lambda()(interactive)(djcb-duplicate-line t)))
+
+
 
 ;; final setup of smex
+;; needs to be at end of file
 (smex-initialize)
 
-;; setup path
-(when (equal system-type 'darwin)
-  (setenv "PATH" (concat "/opt/local/bin:/usr/local/bin:" (getenv "PATH")))
-  (push "/opt/local/bin" exec-path)
-  (push "/usr/local/bin" exec-path))
-
-(setq browse-url-browser-function 'browse-url-default-macosx-browser
-      delete-by-moving-to-trash t)
-
-(add-to-list 'ido-ignore-files "\\.DS_Store")
