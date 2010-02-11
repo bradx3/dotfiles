@@ -20,7 +20,7 @@
 (setq ido-enable-flex-matching t) ; fuzzy matching is a must have
 (setq ido-confirm-unique-completion t)
 (setq ido-default-buffer-method 'samewindow)
-(setq ido-use-filename-at-point t)
+(setq ido-use-filename-at-point nil)
 (setq ido-enable-flex-matching t)
 (ido-mode t)
 (ido-everywhere t)

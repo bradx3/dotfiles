@@ -126,13 +126,14 @@ alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
 alias s="spec -f p"
 alias c="cucumber -f Cucumber::Formatter::ImmediateFeedback"
+alias sc="cucumber -p selenium"
 #alias tc="rm coverage.data; rcov --aggregate coverage.data --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/,.gem\/ -o coverage /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
 alias tc="rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
 
 #alias lunchtime="~/bin/recov"
 alias lunchtime='rm coverage.data;
-rcov --aggregate coverage.data -o "coverage" --sort coverage --rails --exclude /.gem/,/spec/,/features/,/unfuddle/ /usr/bin/spec -- spec -f progress;
-rcov --aggregate coverage.data -o "coverage" --sort coverage --rails --exclude /.gem/,/spec/,/features/,/unfuddle/ ~/.gem/ruby/1.8/bin/cucumber -- features -f Cucumber::Formatter::ImmediateFeedback;'
+rcov --aggregate coverage.data -o "coverage" --sort coverage --rails --exclude /.gem/,/gems/,spec/,features/,/unfuddle/,/tasks/ `which spec` -- spec -f progress;
+rcov --aggregate coverage.data -o "coverage" --sort coverage --rails --exclude /.gem/,/gems/,spec/,features/,/unfuddle/,/tasks/ `which cucumber` -- features -f Cucumber::Formatter::ImmediateFeedback;'
 alias rg="rake routes | grep -i"
 alias rake="rake --trace"
 
