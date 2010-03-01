@@ -126,6 +126,7 @@ alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
 alias s="spec -f p"
 alias c="cucumber -f Cucumber::Formatter::ImmediateFeedback"
+alias cp="cucumber -f pretty"
 alias sc="cucumber -p selenium"
 #alias tc="rm coverage.data; rcov --aggregate coverage.data --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/,.gem\/ -o coverage /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
 alias tc="rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
@@ -182,8 +183,10 @@ function precmd {
 RPS1="\$(rvm-prompt)$PR_MAGENTA(%D{%I:%M %p %d-%m-%y})$PR_NO_COLOR"
 
 
-
-
+# some functions
+function pdfman () {
+    man -t $1 | open -a /Applications/Preview.app -f
+}
 
 
 
