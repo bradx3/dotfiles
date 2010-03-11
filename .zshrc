@@ -130,6 +130,7 @@ alias pc="cucumber -f pretty"
 alias sc="cucumber -p selenium"
 #alias tc="rm coverage.data; rcov --aggregate coverage.data --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/,.gem\/ -o coverage /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
 alias tc="rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
+alias rt="ctags -e **/*.rb"
 
 #alias lunchtime="~/bin/recov"
 alias lunchtime='rm coverage.data;
