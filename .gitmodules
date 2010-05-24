@@ -10,3 +10,6 @@
 [submodule ".site-lisp/php-mode"]
 	path = .site-lisp/php-mode
 	url = git://github.com/ieure/php-mode-el.git
+[submodule ".site-lisp/cucumber.el"]
+	path = .site-lisp/cucumber.el
+	url = http://github.com/michaelklishin/cucumber.el.git
