@@ -100,7 +100,10 @@
 ;; php mode
 (add-to-list 'load-path (concat home-dir ".site-lisp/php-mode"))
 (require 'php-mode)
-
+;; csv mode
+(add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+(autoload 'csv-mode "csv-mode"
+  "Major mode for editing comma-separated value files." t)
 ;; Markdown mode
 ;;(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
 ;;(require 'markdown-mode)
