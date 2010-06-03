@@ -68,21 +68,6 @@ fi
 ###
 bindkey -e
 
-###
-# setup colours
-###
-
-autoload colors zsh/terminfo
-if [[ "$terminfo[colors]" -ge 8 ]]; then
-  colors
-fi
-for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-  eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-  eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-  (( count = $count + 1 ))
-done
-PR_NO_COLOR="%{$terminfo[sgr0]%}"
-
 
 ###
 # ssh host completion
@@ -287,9 +272,20 @@ then
   unsetopt zle                                                                                                     
   unsetopt prompt_cr                                                                                               
   unsetopt prompt_subst                                                                                            
-  unfunction precmd                                                                                                
-  unfunction preexec                                                                                               
+  #unfunction precmd                                                                                                
+  #unfunction preexec                                                                                               
   PS1='$ '                                                                                                         
+else
+    autoload colors zsh/terminfo
+    if [[ "$terminfo[colors]" -ge 8 ]]; then
+	colors
+    fi
+    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+	eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+	eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+	(( count = $count + 1 ))
+    done
+    PR_NO_COLOR="%{$terminfo[sgr0]%}"
 fi               
 
 

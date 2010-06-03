@@ -1,3 +1,4 @@
+
 ;;(server-start)
 
 (setq-default line-spacing 2)
@@ -38,10 +39,11 @@
 (split-window-horizontally)
 
 ;; setup path
-(when (equal system-type 'darwin)
-  (setenv "PATH" (concat "/opt/local/bin:/usr/local/bin:" (getenv "PATH")))
-  (push "/opt/local/bin" exec-path)
-  (push "/usr/local/bin" exec-path))
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+(set-exec-path-from-shell-PATH)
 
 ;; use default mac browser
 (setq browse-url-browser-function 'browse-url-default-macosx-browser
@@ -107,32 +109,18 @@
 ;; Markdown mode
 ;;(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
 ;;(require 'markdown-mode)
-
+;; rvm mode
+(add-to-list 'load-path "~/.site-lisp/rvm")
+(require 'rvm)
+(rvm-use-default)
+;; rspec mode
+(require 'mode-compile)
+(add-to-list 'load-path "~/.site-lisp/rspec-mode")
+(require 'rspec-mode)
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
 (global-set-key "\C-c,g" 'magit-status)
-;; egg
-;(add-to-list 'load-path (concat home-dir ".site-lisp/egg"))
-;(require 'egg)
-;; yasnippet
-;(add-to-list 'load-path (concat home-dir ".site-lisp/yasnippet-0.5.7"))
-;;; (require 'yasnippet)
-;;; (yas/initialize)
-;;; (yas/load-directory (concat home-dir ".site-lisp/snippets"))
-;; closure mode
-;;; (add-to-list 'load-path (concat home-dir "/projects/resources/clojure/clojure-mode"))
-;;; (setq inferior-lisp-program "~/bin/clj")
-;;; ;(require 'clojure-auto)
-;;; (autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
-;;; ;; php mode
-;;; (setq auto-mode-alist
-;;;   (cons '("\\.php\\w?" . html-mode) auto-mode-alist))
-;;; (setq auto-mode-alist
-;;;   (cons '("\\.inc" . html-mode) auto-mode-alist))
-
-;(require 'toggle)
-;(require 'autotest)
 
 
 ;; (load "nxhtml/autostart.el")
@@ -151,6 +139,10 @@
 (keyboard-translate ?\C-h ?\C-?)
 ;; Define M-h to help  ---  please don't add an extra ' after help!
 (global-set-key "\M-h" 'help)
+;; add ruby debugging at cursor
+(global-set-key (kbd "C-c d") 
+		(lambda() (interactive) 
+		  (insert "require \"ruby-debug\"; debugger")))
 
 
 ;; BACKUP FILES
@@ -341,7 +333,6 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 (global-set-key (kbd "C-c y") 'djcb-duplicate-line)
 ;; duplicate a line and comment the first
 (global-set-key (kbd "C-c c") (lambda()(interactive)(djcb-duplicate-line t)))
-
 
 
 ;; final setup of smex
