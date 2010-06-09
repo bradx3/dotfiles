@@ -225,7 +225,8 @@
  '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
  '(paren-match-face (quote paren-face-match-light))
- '(paren-sexp-mode t))
+ '(paren-sexp-mode t)
+ '(rspec-use-rake-flag nil))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
