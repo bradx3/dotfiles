@@ -135,8 +135,8 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 
 # git helpers
 alias gst='git status'
-alias gl='git pull origin staging'
-alias gp='git push origin staging'
+alias gl='git pull origin $(parse_git_branch)'
+alias gp='git push origin $(parse_git_branch)'
 alias gd='git diff | mate'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
@@ -153,7 +153,7 @@ alias hl="heroku logs"
 # get the name of the branch we are on
 ###
 parse_git_branch() {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
@@ -163,7 +163,7 @@ function parse_git_dirty {
 # Called before prompt shown
 ###
 function precmd {
-  PS1="[$PR_MAGENTA%n$PR_NO_COLOR@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_CYAN%2c $PR_RED$(parse_git_branch)$PR_NO_COLOR]%(!.#.$) "
+  PS1="[$PR_MAGENTA%n$PR_NO_COLOR@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_CYAN%2c $PR_RED($(parse_git_branch))$PR_NO_COLOR]%(!.#.$) "
 }
 
 RPS1="\$(rvm-prompt)$PR_MAGENTA(%D{%I:%M %p %d-%m-%y})$PR_NO_COLOR"
