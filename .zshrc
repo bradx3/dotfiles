@@ -135,7 +135,7 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 
 # git helpers
 alias gst='git status'
-alias gl='git pull origin $(parse_git_branch)'
+alias gl='git pull --rebase origin $(parse_git_branch)'
 alias gp='git push origin $(parse_git_branch)'
 alias gd='git diff | mate'
 alias gc='git commit -v'
