@@ -224,6 +224,7 @@
  '(column-number-mode t)
  '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
+ '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments")))
  '(paren-match-face (quote paren-face-match-light))
  '(paren-sexp-mode t)
  '(rspec-use-rake-flag nil))
@@ -329,11 +330,11 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
     (insert-string
       (concat (if (= 0 (forward-line 1)) "" "\n") str "\n"))
     (forward-line -1)))
-
 ;; duplicate a line
 (global-set-key (kbd "C-c y") 'djcb-duplicate-line)
 ;; duplicate a line and comment the first
 (global-set-key (kbd "C-c c") (lambda()(interactive)(djcb-duplicate-line t)))
+
 
 
 ;; final setup of smex
