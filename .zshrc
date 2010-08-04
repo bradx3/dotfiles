@@ -135,7 +135,8 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 
 # git helpers
 alias gst='git status'
-alias gl='git pull --rebase origin $(parse_git_branch)'
+alias gl='git pull origin $(parse_git_branch)'
+alias glr='git pull --rebase origin $(parse_git_branch)'
 alias gp='git push origin $(parse_git_branch)'
 alias gd='git diff | mate'
 alias gc='git commit -v'
@@ -144,6 +145,7 @@ alias gb='git branch'
 alias gba='git branch -a'
 alias gpcd='git push && cap deploy'
 alias gr="git reset --hard HEAD"
+alias grn="git log --format=oneline  --abbrev-commit --no-merges"
 
 #heroku helpers
 alias hp="git push heroku master"
