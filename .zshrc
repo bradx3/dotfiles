@@ -109,18 +109,14 @@ alias ssd="./script/server webrick --debugger"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
-alias s="spec -f p"
-alias c="cucumber -f Cucumber::Formatter::ImmediateFeedback"
-alias pc="cucumber -f pretty"
-alias sc="cucumber -p selenium"
+alias s="bundle exec spec -f p"
+alias c="bundle exec cucumber -f Cucumber::Formatter::ImmediateFeedback"
+alias cr="bundle exec cucumber --format rerun --out rerun.txt"
+alias pc="bundle exec cucumber -f pretty"
+alias sc="bundle exec cucumber -p selenium"
 #alias tc="rm coverage.data; rcov --aggregate coverage.data --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/,.gem\/ -o coverage /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
-alias tc="rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
+alias tc="bundle exec rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
 alias rt="ctags -e **/*.rb"
-
-#alias lunchtime="~/bin/recov"
-alias lunchtime='rm coverage.data;
-rcov --aggregate coverage.data -o "coverage" --sort coverage --rails --exclude /.gem/,/gems/,spec/,features/,/unfuddle/,/tasks/ `which spec` -- spec -f progress;
-rcov --aggregate coverage.data -o "coverage" --sort coverage --rails --exclude /.gem/,/gems/,spec/,features/,/unfuddle/,/tasks/ `which cucumber` -- features -f Cucumber::Formatter::ImmediateFeedback;'
 alias rg="rake routes | grep -i"
 alias rake="rake --trace"
 
@@ -137,7 +133,8 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 alias gst='git status'
 alias gl='git pull origin $(parse_git_branch)'
 alias glr='git pull --rebase origin $(parse_git_branch)'
-alias gp='git push origin $(parse_git_branch)'
+alias gp='git push origin $(parse_git_branch) && gf'
+alias gf='git fetch'
 alias gd='git diff | mate'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
@@ -176,7 +173,47 @@ function pdfman () {
     man -t $1 | open -a /Applications/Preview.app -f
 }
 
+case $TERM in
+    *xterm*|ansi)
+		function settab { print -Pn "\e]1;%n@%m: %~\a" }
+		function settitle { print -Pn "\e]2;%n@%m: %~\a" }
+		function chpwd { settab;settitle }
+		settab;settitle
+        ;;
+esac
 
+# if we're sshing in from emacs/tramp
+if [ "$TERM" = "dumb" ]                                                                                            
+then                                                                                                               
+  unsetopt zle                                                                                                     
+  unsetopt prompt_cr                                                                                               
+  unsetopt prompt_subst                                                                                            
+  #unfunction precmd                                                                                                
+  #unfunction preexec                                                                                               
+  PS1='$ '                                                                                                         
+else
+    autoload colors zsh/terminfo
+    if [[ "$terminfo[colors]" -ge 8 ]]; then
+	colors
+    fi
+    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+	eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+	eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+	(( count = $count + 1 ))
+    done
+    PR_NO_COLOR="%{$terminfo[sgr0]%}"
+fi               
+
+
+if [ -s ~/.profile ] ; then
+    source ~/.profile
+fi
+
+# # RVM
+if [ -s ~/.rvm/scripts/rvm ] ; then 
+    source ~/.rvm/scripts/rvm ;
+#    rvm system;
+fi
 
 
 ###
@@ -208,7 +245,7 @@ zstyle ':completion:*:processes-names' command 'ps -awxho command'
 # Completion Styles
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # list of completers to use
-zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate _force_rehash
 
 # allow one error for every three characters typed in approximate completer
 zstyle -e ':completion:*:approximate:*' max-errors \
@@ -260,43 +297,3 @@ zstyle ':completion:*:ssh:*' group-order \
 zstyle '*' single-ignored show
 
 
-case $TERM in
-    *xterm*|ansi)
-		function settab { print -Pn "\e]1;%n@%m: %~\a" }
-		function settitle { print -Pn "\e]2;%n@%m: %~\a" }
-		function chpwd { settab;settitle }
-		settab;settitle
-        ;;
-esac
-
-if [ "$TERM" = "dumb" ]                                                                                            
-then                                                                                                               
-  unsetopt zle                                                                                                     
-  unsetopt prompt_cr                                                                                               
-  unsetopt prompt_subst                                                                                            
-  #unfunction precmd                                                                                                
-  #unfunction preexec                                                                                               
-  PS1='$ '                                                                                                         
-else
-    autoload colors zsh/terminfo
-    if [[ "$terminfo[colors]" -ge 8 ]]; then
-	colors
-    fi
-    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-	eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-	eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-	(( count = $count + 1 ))
-    done
-    PR_NO_COLOR="%{$terminfo[sgr0]%}"
-fi               
-
-
-if [ -s ~/.profile ] ; then
-    source ~/.profile
-fi
-
-# # RVM
-if [ -s ~/.rvm/scripts/rvm ] ; then 
-    source ~/.rvm/scripts/rvm ;
-#    rvm system;
-fi
