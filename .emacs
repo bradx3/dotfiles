@@ -68,6 +68,7 @@
 (setq auto-mode-alist  (cons '(".rjs$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rjs.js$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rake$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '("Rakefile" . ruby-mode) auto-mode-alist))
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
