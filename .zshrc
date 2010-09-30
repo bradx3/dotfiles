@@ -132,7 +132,9 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 # git helpers
 alias gst='git status'
 alias gl='git pull origin $(parse_git_branch)'
-alias glr='git pull --rebase origin $(parse_git_branch)'
+#alias glr='git pull --rebase origin $(parse_git_branch)'
+alias gup='git fetch origin && git rebase -p origin/$(git_current_branch)'
+alias gm='git merge --no-ff'
 alias gp='git push origin $(parse_git_branch) && gf'
 alias gf='git fetch'
 alias gd='git diff | mate'
@@ -153,6 +155,9 @@ alias hl="heroku logs"
 ###
 parse_git_branch() {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+function git_current_branch() {
+  git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
 }
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
