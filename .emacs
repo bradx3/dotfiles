@@ -306,8 +306,8 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 (defun open-my-scratch ()
   "Opens my scratch file"
   (interactive)
-  (if (file-exists-p "~/Documents/*scratch*")
-      (find-file "~/Documents/*scratch*")))
+  (if (file-exists-p "~/Dropbox/*scratch*")
+      (find-file "~/Dropbox/*scratch*")))
 (global-set-key "\C-c\ s" 'open-my-scratch)
 (kill-buffer "*scratch*")
 (open-my-scratch)
