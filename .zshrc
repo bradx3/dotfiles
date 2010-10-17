@@ -51,8 +51,8 @@ export PAGER='less'
 export SHELL="/bin/zsh"
 export RUBYLIB="~/projects/scripts/lib"
 
-export EDITOR="emacs -q"
-export GIT_EDITOR="emacs -q"
+export EDITOR="emacsclient"
+export GIT_EDITOR="emacsclient"
 
 if [[ `uname` == "Darwin" ]] then
 #[[ -f "/usr/bin/mate_wait" ]] then
@@ -104,8 +104,8 @@ alias pgstart="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-serve
 alias pgstop="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop"
 
 # rails helpers 
-alias ss="thin start"
-alias ssd="thin start"
+alias ss="./script/server"
+alias ssd="./script/server webrick --debugger"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
