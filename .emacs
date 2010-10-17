@@ -1,5 +1,5 @@
 
-;;(server-start)
+(server-start)
 
 (setq-default line-spacing 2)
 (setq inhibit-splash-screen t)
