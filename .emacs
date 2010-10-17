@@ -77,9 +77,11 @@
 ;;; (shell-command-on-region (point-min) (point-max) "ruby"))
 
 ;; haml mode
+(add-to-list 'load-path (concat home-dir ".site-lisp/haml"))
 (require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 ;; sass mode
+(add-to-list 'load-path (concat home-dir ".site-lisp/sass"))
 (require 'sass-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
 ;; js mode

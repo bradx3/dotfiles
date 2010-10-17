@@ -22,3 +22,9 @@
 [submodule ".site-lisp/coffee-mode"]
 	path = .site-lisp/coffee-mode
 	url = git://github.com/defunkt/coffee-mode.git
+[submodule ".site-lisp/sass"]
+	path = .site-lisp/sass
+	url = http://github.com/nex3/sass-mode.git
+[submodule ".site-lisp/haml"]
+	path = .site-lisp/haml
+	url = http://github.com/nex3/haml-mode.git
