@@ -69,6 +69,7 @@
 (setq auto-mode-alist  (cons '(".rjs.js$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rake$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '("Rakefile" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '("Gemfile" . ruby-mode) auto-mode-alist))
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
@@ -124,6 +125,13 @@
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
 (global-set-key "\C-c,g" 'magit-status)
+;; fuzzy-format to keep tabs/spaces consistent
+(require 'fuzzy-format)
+(setq fuzzy-format-default-indent-tabs-mode nil)
+(global-fuzzy-format-mode t)
+;; coffee mode
+(add-to-list 'load-path "~/.site-lisp/coffee-mode")
+(require 'coffee-mode)
 
 
 ;; (load "nxhtml/autostart.el")
