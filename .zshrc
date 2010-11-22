@@ -259,7 +259,7 @@ zstyle ':completion:*:processes-names' command 'ps -awxho command'
 # Completion Styles
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # list of completers to use
-zstyle ':completion:*::::' completer _expand _complete _ignored _approximate _force_rehash
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 
 # allow one error for every three characters typed in approximate completer
 zstyle -e ':completion:*:approximate:*' max-errors \
