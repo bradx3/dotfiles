@@ -129,6 +129,7 @@ alias tc="fast_test bundle exec rcov --rails --exclude osx\/objc,gems\/,spec\/,f
 alias rt="ctags -e **/*.rb"
 alias rg="rake routes | grep -i"
 alias rake="rake --trace"
+alias be="bundle exec"
 
 # svn helpers
 alias sst="svn st"
@@ -143,8 +144,8 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 alias gst='git status'
 alias gl='git pull origin $(git_current_branch)'
 alias gup='git fetch origin && git rebase -p origin/$(git_current_branch)'
-alias gm='git merge --no-ff'
-alias gp='git push origin $(git_current_branch) && gf'
+alias gmt='git mergetool'
+alias gp='git push --tags origin $(git_current_branch) && gf'
 alias gf='git fetch'
 alias gd='git diff | mate'
 alias gc='git commit -v'
