@@ -1,4 +1,3 @@
-
 (server-start)
 
 (setq-default line-spacing 2)
@@ -70,6 +69,7 @@
 (setq auto-mode-alist  (cons '(".rake$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '("Rakefile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '("Gemfile" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".irbrc" . ruby-mode) auto-mode-alist))
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
