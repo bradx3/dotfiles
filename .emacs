@@ -87,6 +87,7 @@
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
 ;; js mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
 (autoload 'javascript-mode "javascript" nil t)
 ;; css mode
 (autoload 'css-mode "css-mode-simple" nil t)
