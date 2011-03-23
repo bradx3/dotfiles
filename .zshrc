@@ -50,9 +50,9 @@ REPORTTIME=120 # print elapsed time when more than 10 seconds
 export PAGER='less'
 export SHELL="/bin/zsh"
 export RUBYLIB="~/projects/scripts/lib"
-
 export EDITOR="emacsclient"
 export GIT_EDITOR="emacsclient"
+export NODE_PATH="/usr/local/lib/node"
 
 if [[ `uname` == "Darwin" ]] then
 #[[ -f "/usr/bin/mate_wait" ]] then
@@ -121,7 +121,7 @@ alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
 alias s="fast_test bundle exec spec -f p"
-alias c="fast_test bundle exec cucumber -f Cucumber::Formatter::ImmediateFeedback"
+alias c="fast_test bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
 alias cr="fast_test bundle exec cucumber --format rerun --out rerun.txt"
 alias pc="fast_test bundle exec cucumber -f pretty"
 alias sc="fast_test bundle exec cucumber -p selenium"
@@ -147,7 +147,6 @@ alias gup='git fetch origin && git rebase -p origin/$(git_current_branch)'
 alias gmt='git mergetool'
 alias gp='git push --tags origin $(git_current_branch) && gf'
 alias gf='git fetch'
-alias gd='git diff | mate'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gb='git branch'
@@ -155,6 +154,8 @@ alias gba='git branch -a'
 alias gpcd='git push && cap deploy'
 alias gr="git reset --hard HEAD"
 alias grn="git log --format=oneline  --abbrev-commit --no-merges"
+alias st="gitx -c"
+alias de="gitx develop"
 
 #heroku helpers
 alias hp="git push heroku master"
@@ -209,12 +210,12 @@ then
 else
     autoload colors zsh/terminfo
     if [[ "$terminfo[colors]" -ge 8 ]]; then
-	colors
+        colors
     fi
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-	eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-	eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-	(( count = $count + 1 ))
+        eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+        eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+        (( count = $count + 1 ))
     done
     PR_NO_COLOR="%{$terminfo[sgr0]%}"
 fi               
