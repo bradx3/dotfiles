@@ -1,3 +1,4 @@
+
 (server-start)
 
 (setq-default line-spacing 2)
@@ -14,6 +15,8 @@
 ; change yes-or-no to y-or-n
 (fset 'yes-or-no-p 'y-or-n-p)
 (set-default 'truncate-lines t)
+; show trailing whitespace
+(setq-default show-trailing-whitespace t)
 
 ;; set ido mode
 (ido-mode t)
@@ -70,6 +73,7 @@
 (setq auto-mode-alist  (cons '("Rakefile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '("Gemfile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".irbrc" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".ru$" . ruby-mode) auto-mode-alist))
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
@@ -88,6 +92,7 @@
 ;; js mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.as$" . javascript-mode))
 (autoload 'javascript-mode "javascript" nil t)
 ;; css mode
 (autoload 'css-mode "css-mode-simple" nil t)
@@ -123,7 +128,9 @@
 (add-to-list 'load-path "~/.site-lisp/rspec-mode")
 (setq rspec-use-rake-flag nil)
 (setq rspec-use-rvm t)
-(setq rspec-spec-command "rvm ree-1.8.6 exec bundle exec spec")
+;;(setq rspec-spec-command "rvm ree-1.8.6 exec bundle exec spec")
+(setq rspec-spec-command "bundle exec spec")
+;; (setq rspec-spec-command "which ruby")
 (require 'rspec-mode)
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
@@ -136,7 +143,30 @@
 ;; coffee mode
 (add-to-list 'load-path "~/.site-lisp/coffee-mode")
 (require 'coffee-mode)
-
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  (set (make-local-variable 'tab-width) 2))
+(add-hook 'coffee-mode-hook
+          '(lambda() (coffee-custom)))
+;; textile mode
+(require 'textile-mode)
+(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+;; hideshow ruby support
+(defun ruby-hs-minor-mode (&optional arg)
+  (interactive)
+  (require 'hideshow)
+  (unless (assoc 'ruby-mode hs-special-modes-alist)
+    (setq
+     hs-special-modes-alist
+     (cons (list 'ruby-mode
+                 "\\(def\\|do\\)"
+                 "end"
+                 "#"
+                 (lambda (&rest args) (ruby-end-of-block))
+                 ;(lambda (&rest args) (ruby-beginning-of-defun))
+                 )
+           hs-special-modes-alist)))
+  (hs-minor-mode arg))
 
 ;; (load "nxhtml/autostart.el")
 ;;  (setq
@@ -192,7 +222,7 @@
 (add-hook 'ruby-mode-hook
               '(lambda ()
                  (outline-minor-mode)
-                 (setq outline-regexp " *\\(def \\|class\\|module\\)")))
+                 (setq outline-regexp " *\\(def \\|class\\|module\\|#\\)")))
 (setq-default outline-minor-mode-prefix  "\C-c") 
 
 ;; load color themes
@@ -355,4 +385,3 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 ;; final setup of smex
 ;; needs to be at end of file
 (smex-initialize)
-
