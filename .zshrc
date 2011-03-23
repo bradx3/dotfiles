@@ -230,6 +230,11 @@ if [ -s ~/.rvm/scripts/rvm ] ; then
 #    rvm system;
 fi
 
+# Autojump
+if [ -f `brew --prefix`/etc/autojump ]; then
+  . `brew --prefix`/etc/autojump
+fi
+
 
 ###
 # Bunch of stuff I haven't figured out if I need yet
