@@ -229,10 +229,11 @@
 (require 'color-theme)
 (color-theme-initialize)
 (setq color-theme-is-global t)
-(load-file (concat home-dir ".site-lisp/zenburn.el"))
-(load-file (concat home-dir ".site-lisp/twilight.el"))
+;(load-file (concat home-dir ".site-lisp/zenburn.el"))
+;(load-file (concat home-dir ".site-lisp/twilight.el"))
 (load-file (concat home-dir ".site-lisp/color-theme-subdued.el"))
-;(color-theme-twilight)
+;(load-file (concat home-dir ".site-lisp/solarized/color-theme-sanityinc-solarized.el"))
+
 (color-theme-subdued)
 
 ;; FUNCTIONS

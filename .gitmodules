@@ -28,3 +28,6 @@
 [submodule ".site-lisp/haml"]
 	path = .site-lisp/haml
 	url = http://github.com/nex3/haml-mode.git
+[submodule ".site-lisp/solarized"]
+	path = .site-lisp/solarized
+	url = https://github.com/purcell/color-theme-sanityinc-solarized.git
