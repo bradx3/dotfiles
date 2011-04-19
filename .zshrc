@@ -156,6 +156,7 @@ alias gr="git reset --hard HEAD"
 alias grn="git log --format=oneline  --abbrev-commit --no-merges"
 alias st="gitx -c"
 alias de="gitx develop"
+# see also gco below
 
 #heroku helpers
 alias hp="git push heroku master"
@@ -172,6 +173,19 @@ function git_current_branch() {
 }
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+
+#
+# Call git checkout
+#
+gco()
+{
+  git checkout $*
+  if [[ -s .rvmrc ]] ; then
+    unset rvm_rvmrc_cwd
+    cd ..
+    cd -
+  fi
 }
 
 ###
