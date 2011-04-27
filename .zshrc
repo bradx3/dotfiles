@@ -156,6 +156,9 @@ alias gr="git reset --hard HEAD"
 alias grn="git log --format=oneline  --abbrev-commit --no-merges"
 alias st="gitx -c"
 alias de="gitx develop"
+alias gfs='git flow feature start'
+alias gff='git flow feature finish'
+alias gfr='git flow feature rebase'
 # see also gco below
 
 #heroku helpers
