@@ -17,6 +17,8 @@
 (set-default 'truncate-lines t)
 ; show trailing whitespace
 (setq-default show-trailing-whitespace t)
+; don't popup a new frame for files dropped on dock
+(setq ns-pop-up-frames nil)
 
 ;; set ido mode
 (ido-mode t)
