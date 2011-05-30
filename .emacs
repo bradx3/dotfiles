@@ -62,6 +62,11 @@
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
+;; rainbow delimiters
+(add-to-list 'load-path (concat home-dir ".site-lisp/rainbow-delimiters/"))
+(setq-default frame-background-mode 'dark)
+(require 'rainbow-delimiters)
+
 ;; MODES
 
 ;; loads diff mode when git commit file loaded
@@ -76,6 +81,7 @@
 (setq auto-mode-alist  (cons '("Gemfile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".irbrc" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".ru$" . ruby-mode) auto-mode-alist))
+(add-hook 'ruby-mode-hook 'rainbow-delimiters-mode)
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
@@ -281,7 +287,9 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Droid Sans Mono")))))
+ '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Droid Sans Mono"))))
+ '(rainbow-delimiters-depth-1-face ((((background dark)) (:foreground "#ffffff"))))
+ '(rainbow-delimiters-depth-2-face ((((background dark)) (:foreground "#6085ff")))))
 
 (defun swap-windows ()
  "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
