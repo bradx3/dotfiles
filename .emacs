@@ -1,3 +1,5 @@
+;; to recompile all files after updating:
+;; C-u 0 M-x byte-recompile-directory
 
 (server-start)
 
