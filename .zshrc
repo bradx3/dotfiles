@@ -131,6 +131,7 @@ alias rt="ctags -e **/*.rb"
 alias rg="rake routes | grep -i"
 alias rake="rake --trace"
 alias be="bundle exec"
+alias swr="source .rvmrc"
 
 # svn helpers
 alias sst="svn st"
