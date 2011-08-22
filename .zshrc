@@ -115,13 +115,12 @@ function fast_test() {
   RUBY_HEAP_FREE_MIN=500000 \
   $*
 }
-alias ss="./script/server"
-alias ssd="./script/server webrick --debugger"
+alias rs="./script/rails server"
+alias rc="./script/rails console"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
-alias s="fast_test bundle exec spec -f p"
-alias rs="bundle exec rspec"
+alias s="fast_test bundle exec rspec"
 alias c="fast_test bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
 alias cr="fast_test bundle exec cucumber --format rerun --out rerun.txt"
 alias pc="fast_test bundle exec cucumber -f pretty"
