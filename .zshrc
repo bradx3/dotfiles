@@ -128,7 +128,7 @@ alias sc="fast_test bundle exec cucumber -p selenium"
 alias tc="fast_test bundle exec rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
 alias rt="ctags -e **/*.rb"
 alias rg="rake routes | grep -i"
-alias rake="rake --trace"
+alias rake="bundle exec rake --trace"
 alias be="bundle exec"
 alias swr="source .rvmrc"
 
