@@ -116,7 +116,8 @@ function fast_test() {
   $*
 }
 alias rs="./script/rails server"
-alias rc="./script/rails console"
+#alias rc="./script/rails console"
+alias rc="pry -r ./config/environment"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
