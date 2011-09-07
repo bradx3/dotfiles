@@ -69,6 +69,13 @@
 (setq-default frame-background-mode 'dark)
 (require 'rainbow-delimiters)
 
+;; ruby block
+(add-to-list 'load-path (concat home-dir ".site-lisp/ruby-block/"))
+(require 'ruby-block)
+(ruby-block-mode t)
+(setq ruby-block-highlight-toggle t)
+
+
 ;; MODES
 
 ;; loads diff mode when git commit file loaded

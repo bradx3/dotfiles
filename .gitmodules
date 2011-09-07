@@ -34,3 +34,6 @@
 [submodule ".site-lisp/rainbow-delimiters"]
 	path = .site-lisp/rainbow-delimiters
 	url = https://github.com/jlr/rainbow-delimiters.git
+[submodule ".site-lisp/ruby-block"]
+	path = .site-lisp/ruby-block
+	url = https://github.com/adolfosousa/ruby-block.el.git
