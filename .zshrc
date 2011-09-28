@@ -161,7 +161,8 @@ alias de="gitx develop"
 alias gfs='git flow feature start'
 alias gff='git flow feature finish'
 alias gfr='git flow feature rebase'
-alias gfc='git config core.ignorecase true && gup && git config.core.ignorecase false'
+alias gfc='git flow feature checkout'
+alias gua='git config core.ignorecase true && gup && git config core.ignorecase false'
 # see also gco below
 
 #heroku helpers
