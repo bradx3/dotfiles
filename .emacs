@@ -145,9 +145,6 @@
 (add-to-list 'load-path "~/.site-lisp/rspec-mode")
 (setq rspec-use-rake-flag nil)
 (setq rspec-use-rvm t)
-;;(setq rspec-spec-command "rvm ree-1.8.6 exec bundle exec spec")
-(setq rspec-spec-command "bundle exec spec")
-;; (setq rspec-spec-command "which ruby")
 (require 'rspec-mode)
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
