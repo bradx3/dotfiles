@@ -397,7 +397,29 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 ;; duplicate a line and comment the first
 (global-set-key (kbd "C-c c") (lambda()(interactive)(djcb-duplicate-line t)))
 
-
+;; indent ruby multiline fix
+;; http://stackoverflow.com/questions/4412739/emacs-ruby-mode-indentation-behavior/7622971#7622971
+(defadvice ruby-indent-line (after line-up-args activate)
+  (let (indent prev-indent arg-indent)
+    (save-excursion
+      (back-to-indentation)
+      (when (zerop (car (syntax-ppss)))
+        (setq indent (current-column))
+        (skip-chars-backward " \t\n")
+        (when (eq ?, (char-before))
+          (ruby-backward-sexp)
+          (back-to-indentation)
+          (setq prev-indent (current-column))
+          (skip-syntax-forward "w_.")
+          (skip-chars-forward " ")
+          (setq arg-indent (current-column)))))
+    (when prev-indent
+      (let ((offset (- (current-column) indent)))
+        (cond ((< indent prev-indent)
+               (indent-line-to prev-indent))
+              ((= indent prev-indent)
+               (indent-line-to arg-indent)))
+        (when (> offset 0) (forward-char offset))))))
 
 ;; final setup of smex
 ;; needs to be at end of file
