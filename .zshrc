@@ -55,9 +55,12 @@ export GIT_EDITOR="emacsclient"
 export NODE_PATH="/usr/local/lib/node"
 
 if [[ `uname` == "Darwin" ]] then
-#[[ -f "/usr/bin/mate_wait" ]] then
   export CLICOLOR=1
-  export LSCOLORS=gxfxcxdxbxegedabagacad 
+  export LSCOLORS=gxfxcxdxbxegedabagacad
+  # Autojump
+  if [ -f `brew --prefix`/etc/autojump ]; then
+    . `brew --prefix`/etc/autojump
+  fi
 else
   alias ls='ls --color'
   export LS_COLORS="di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=:ow=:"
@@ -251,12 +254,6 @@ if [ -s ~/.rvm/scripts/rvm ] ; then
     source ~/.rvm/scripts/rvm ;
 #    rvm system;
 fi
-
-# Autojump
-if [ -f `brew --prefix`/etc/autojump ]; then
-  . `brew --prefix`/etc/autojump
-fi
-
 
 ###
 # Bunch of stuff I haven't figured out if I need yet
