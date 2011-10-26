@@ -57,10 +57,6 @@ export NODE_PATH="/usr/local/lib/node"
 if [[ `uname` == "Darwin" ]] then
   export CLICOLOR=1
   export LSCOLORS=gxfxcxdxbxegedabagacad
-  # Autojump
-  if [ -f `brew --prefix`/etc/autojump ]; then
-    . `brew --prefix`/etc/autojump
-  fi
 else
   alias ls='ls --color'
   export LS_COLORS="di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=:ow=:"
@@ -253,6 +249,15 @@ fi
 if [ -s ~/.rvm/scripts/rvm ] ; then 
     source ~/.rvm/scripts/rvm ;
 #    rvm system;
+fi
+
+# Autojump
+if [ -f /usr/local/bin/brew ]; then
+  if [ -f `brew --prefix`/etc/autojump ]; then
+    . `brew --prefix`/etc/autojump
+  fi
+elif [ -f /usr/share/autojump/autojump.sh ]; then
+  .  /usr/share/autojump/autojump.sh
 fi
 
 ###
