@@ -37,3 +37,6 @@
 [submodule ".site-lisp/ruby-block"]
 	path = .site-lisp/ruby-block
 	url = https://github.com/adolfosousa/ruby-block.el.git
+[submodule ".site-lisp/mo-git-blame"]
+	path = .site-lisp/mo-git-blame
+	url = https://github.com/mbunkus/mo-git-blame.git

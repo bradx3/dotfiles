@@ -150,6 +150,10 @@
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
 (global-set-key "\C-c,g" 'magit-status)
+;; mo-git-blame
+(add-to-list 'load-path "~/.site-lisp/mo-git-blame")
+(autoload 'mo-git-blame-file "mo-git-blame" nil t)
+(autoload 'mo-git-blame-current "mo-git-blame" nil t)
 ;; fuzzy-format to keep tabs/spaces consistent
 (require 'fuzzy-format)
 (setq fuzzy-format-default-indent-tabs-mode nil)
