@@ -322,21 +322,26 @@
 (global-set-key (kbd "C-c ' p") 'restart-passenger)
 
 
-;; some rinari helpers
+;; some project helpers
 (defun kill-buffers-in-subdir (subdir buffer)
   "Kills the given buffer if it is linked to a file in the current rinari project."
   (if (buffer-in-subdir-p subdir buffer)
      (kill-buffer buffer)))
 
-(defun buffer-in-subdir-p (subdir buffer) 
+(defun buffer-in-subdir-p (subdir buffer)
   "Returns true if buffer belongs to the current rinari project"
   (and (buffer-file-name buffer)
        (string-match subdir (buffer-file-name buffer))))
 
-(defun kill-all-rinari-buffers ()
-  "Kills all buffers linked to the current rinari project"
+(defun current-git-repo
+  "Returns the path to the git repo for the current buffer"
+  (magit-get-top-dir (file-name-directory buffer-file-name)))
+
+(defun kill-all-project-buffers ()
+  "Kills all buffers linked to the current git project"
   (interactive)
-  (let ((path (rinari-root)))
+  (let ((path (magit-get-top-dir (file-name-directory buffer-file-name))))
+  ;(let ((path (rinari-root)))
     (if path
 	(dolist (buffer (buffer-list))
 	  (kill-buffers-in-subdir path buffer)))))
