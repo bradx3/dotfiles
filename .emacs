@@ -36,6 +36,8 @@
 (set-face-foreground 'ido-subdir "lightBlue")
 (add-to-list 'ido-ignore-files "\\.DS_Store")
 
+(global-set-key (kbd "M-/") 'hippie-expand)
+
 ;; directory to put various el files into
 (defvar home-dir (concat (expand-file-name "~") "/"))
 (add-to-list 'load-path (concat home-dir ".site-lisp"))
