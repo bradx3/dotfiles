@@ -131,6 +131,7 @@ alias rg="rake routes | grep -i"
 alias rake="bundle exec rake --trace"
 alias be="bundle exec"
 alias swr="source .rvmrc"
+alias reports="RAILS_ENV=reports"
 
 # svn helpers
 alias sst="svn st"
