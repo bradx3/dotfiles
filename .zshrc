@@ -195,6 +195,15 @@ gco()
   fi
 }
 
+#
+# Delete local and remote git branch
+#
+gbd() {
+  git branch -D feature/$1
+  git push origin :feature/$1
+}
+
+
 ###
 # Called before prompt shown
 ###
