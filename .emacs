@@ -99,6 +99,7 @@
 (setq auto-mode-alist  (cons '("Gemfile" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".irbrc" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".ru$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".gemspec$" . ruby-mode) auto-mode-alist))
 (add-hook 'ruby-mode-hook 'rainbow-delimiters-mode)
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
