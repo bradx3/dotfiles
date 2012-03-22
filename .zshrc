@@ -143,6 +143,7 @@ alias add_missing='svn add `svn st | grep \? | tr -d "? "`'
 alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' db/ && svn propset svn:ignore 'schema.rb' db/"
 
 # git helpers
+alias git="nocorrect git"
 alias gst='git status'
 alias gl='git pull origin $(git_current_branch)'
 alias gup='git fetch origin && git rebase -p origin/$(git_current_branch)'
@@ -163,6 +164,7 @@ alias gff='git flow feature finish'
 alias gfr='git flow feature rebase'
 alias gfc='git flow feature checkout'
 alias gua='git config core.ignorecase true && gup && git config core.ignorecase false'
+alias glc="git log -n 1 --pretty=format:%B | pbcopy"
 # see also gco below
 
 #heroku helpers
