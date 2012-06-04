@@ -76,7 +76,7 @@ end
 def paste
   IO.popen('pbpaste') {|clipboard| clipboard.read}
 end
-def copy(stuff)
+def pbcopy(stuff)
   IO.popen('pbcopy', 'w+') {|clipboard| clipboard.write(stuff)}
 end
 
