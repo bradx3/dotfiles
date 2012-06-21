@@ -104,28 +104,16 @@ alias mystop="sudo /opt/local/share/mysql5/mysql/mysql.server stop"
 alias pgstart="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper start"
 alias pgstop="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop"
 
-# rails helpers 
-# Some variables to speed up ree
-function fast_test() {
-  RUBY_HEAP_MIN_SLOTS=1000000 \
-  RUBY_HEAP_SLOTS_INCREMENT=1000000 \
-  RUBY_HEAP_SLOTS_GROWTH_FACTOR=1 \
-  RUBY_GC_MALLOC_LIMIT=1000000000 \
-  RUBY_HEAP_FREE_MIN=500000 \
-  $*
-}
 alias rs="./script/rails server"
-#alias rc="./script/rails console"
-alias rc="pry -r ./config/environment"
+alias rc="./script/rails console"
+#alias rc="pry -r ./config/environment"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && rake db:test:clone"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
-alias s="fast_test bundle exec rspec --drb --order random"
-alias c="fast_test bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
-alias cr="fast_test bundle exec cucumber --format rerun --out rerun.txt"
-alias pc="fast_test bundle exec cucumber -f pretty"
-alias sc="fast_test bundle exec cucumber -p selenium"
-alias tc="fast_test bundle exec rcov --rails --exclude osx\/objc,gems\/,spec\/,features\/,lib\/tasks\/,lib\/unfuddle\/ -o ~/tmp/rcov /Users/bwilson/.gem/ruby/1.8/bin/cucumber -- "
+alias s="bundle exec rspec --drb --order random"
+alias c="bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
+alias cr="bundle exec cucumber --format rerun --out rerun.txt"
+alias sc="bundle exec cucumber -p selenium"
 alias rt="ctags -e **/*.rb"
 alias rg="rake routes | grep -i"
 alias rake="bundle exec rake --trace"
@@ -189,7 +177,7 @@ function parse_git_dirty {
 #
 gco()
 {
-  git checkout $*
+  nocorrect git checkout $*
   if [[ -s .rvmrc ]] ; then
     unset rvm_rvmrc_cwd
     cd ..
@@ -353,3 +341,5 @@ zstyle ':completion:*:ssh:*' group-order \
 zstyle '*' single-ignored show
 
 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
