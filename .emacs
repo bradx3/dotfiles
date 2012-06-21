@@ -45,6 +45,9 @@
 (setq uniquify-after-kill-buffer-p t) ; rename after killing uniquified
 (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
+;; set up zone (screensaver type thing)
+;(zone-when-idle 1800)
+
 ;; directory to put various el files into
 (defvar home-dir (concat (expand-file-name "~") "/"))
 (add-to-list 'load-path (concat home-dir ".site-lisp"))
@@ -84,6 +87,14 @@
 (ruby-block-mode t)
 (setq ruby-block-highlight-toggle t)
 
+;; browse kill ring
+(add-to-list 'load-path (concat home-dir ".site-lisp/browse-kill-ring/"))
+(require 'browse-kill-ring)
+(setq browse-kill-ring-quit-action 'save-and-restore)
+
+;; browse kill ring plus
+(add-to-list 'load-path (concat home-dir ".site-lisp/browse-kill-ring-plus/"))
+(require 'browse-kill-ring+)
 
 ;; MODES
 
