@@ -35,7 +35,7 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH=~/bin:~/.gem/ruby/1.8/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH
+PATH=~/bin:~/Dropbox/Blake/sync/bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH
 
 #PATH=~/projects/readingeggs/vendor/plugins/cucumber/bin:$PATH
 export PATH
