@@ -390,7 +390,7 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
       (find-file "~/Documents/brad.org")))
 (global-set-key "\C-c\ o" 'open-my-org)
 (setq org-todo-keywords
-      '((sequence "TODO" "TODAY" "STARTED" "DONE")))
+      '((sequence "STARTED" "TODAY" "TODO" "DONE")))
 (global-set-key "\C-c\ a" 'org-agenda)
 (setq org-agenda-custom-commands
            '(("j" occur-tree "TODAY")))
