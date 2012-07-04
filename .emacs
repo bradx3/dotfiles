@@ -391,6 +391,9 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 (global-set-key "\C-c\ o" 'open-my-org)
 (setq org-todo-keywords
       '((sequence "TODO" "TODAY" "STARTED" "DONE")))
+(global-set-key "\C-c\ a" 'org-agenda)
+(setq org-agenda-custom-commands
+           '(("j" occur-tree "TODAY")))
 (open-my-org)
 
 ;; Open up scratch file
