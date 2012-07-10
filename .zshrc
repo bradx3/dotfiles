@@ -160,16 +160,19 @@ alias hp="git push heroku master"
 alias hl="heroku logs"
 
 # work helpers
-export RE=http://localhost:3010
-export REX_STUDENT=http://localhost:3011
-export EGGSPRESS_DATA=http://localhost:3012
-export BLAKE_ADMIN=http://localhost:3013
-export MS_STUDENT=http://localhost:3014
-alias re="./script/rails s -p 3010"
-alias rex="./script/rails s -p 3011"
-alias ed="./script/rails s -p 3012"
-alias ba="./script/rails s -p 3013"
-alias ms="./script/rails s -p 3014"
+function work_exports() {
+    RE=http://localhost:3010 \
+    REX_STUDENT=http://localhost:3011 \
+    EGGSPRESS_DATA=http://localhost:3012 \
+    BLAKE_ADMIN=http://localhost:3013 \
+    MS_STUDENT=http://localhost:3014 \
+    $*
+}
+alias re='work_exports ./script/rails s -p 3010'
+alias rex='work_exports ./script/rails s -p 3011'
+alias ed='work_exports ./script/rails s -p 3012'
+alias ba='work_exports ./script/rails s -p 3013'
+alias ms='work_exports ./script/rails s -p 3014'
 
 ###
 # get the name of the branch we are on
