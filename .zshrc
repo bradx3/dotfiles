@@ -155,6 +155,10 @@ alias gua='git config core.ignorecase true && gup && git config core.ignorecase 
 alias glc="git log -n 1 --pretty=format:%B | pbcopy"
 # see also gco below
 
+function ghb() {
+  hub browse -- commit/$1
+}
+
 #heroku helpers
 alias hp="git push heroku master"
 alias hl="heroku logs"
