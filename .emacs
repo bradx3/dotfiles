@@ -161,6 +161,7 @@
 (add-to-list 'load-path "~/.site-lisp/rvm")
 (require 'rvm)
 (rvm-use-default)
+(global-set-key "\C-c'r" 'rvm-activate-corresponding-ruby)
 ;; rspec mode
 (require 'mode-compile)
 (add-to-list 'load-path "~/.site-lisp/rspec-mode")
