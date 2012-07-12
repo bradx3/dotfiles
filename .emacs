@@ -146,7 +146,7 @@
 ;; Rinari (rails helpers)
 (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 (require 'rinari)
-(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature")
+(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee")
 ;; php mode
 (add-to-list 'load-path (concat home-dir ".site-lisp/php-mode"))
 (require 'php-mode)
@@ -207,6 +207,9 @@
                  )
            hs-special-modes-alist)))
   (hs-minor-mode arg))
+;; handlebars mode
+(add-to-list 'load-path "~/.site-lisp/handlebars-mode")
+(require 'handlebars-mode)
 
 ;; (load "nxhtml/autostart.el")
 ;;  (setq

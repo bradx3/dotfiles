@@ -46,3 +46,6 @@
 [submodule ".site-lisp/browse-kill-ring"]
 	path = .site-lisp/browse-kill-ring
 	url = https://github.com/emacsmirror/browse-kill-ring.git
+[submodule ".site-lisp/handlebars-mode"]
+	path = .site-lisp/handlebars-mode
+	url = https://github.com/danielevans/handlebars-mode.git
