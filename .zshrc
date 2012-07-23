@@ -216,8 +216,23 @@ gbd() {
 ###
 # Called before prompt shown
 ###
+echo $HOST
+case $HOST in
+    bradwilson.pascal.net.au)
+        hostcolor=magenta
+        ;;
+    clamps)
+        hostcolor=red
+        ;;
+    fry)
+        hostcolor=cyan
+        ;;
+    *)
+        hostcolor=green
+        ;;
+esac
 function precmd {
-  PS1="[$PR_MAGENTA%n$PR_NO_COLOR@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_CYAN%2c $PR_RED($(git_current_branch))$PR_NO_COLOR]%(!.#.$) "
+  PS1="[$PR_MAGENTA%n$PR_NO_COLOR@$fg[$hostcolor]%U%m%u$PR_NO_COLOR:$PR_CYAN%2c $PR_RED($(git_current_branch))$PR_NO_COLOR]%(!.#.$) "
 }
 
 RPS1="\$(rvm-prompt)$PR_MAGENTA(%D{%I:%M %p %d-%m-%y})$PR_NO_COLOR"
