@@ -1,3 +1,4 @@
+
 ;; to recompile all files after updating:
 ;; C-u 0 M-x byte-recompile-directory
 
@@ -161,7 +162,7 @@
 (add-to-list 'load-path "~/.site-lisp/rvm")
 (require 'rvm)
 (rvm-use-default)
-(global-set-key "\C-c'r" 'rvm-activate-corresponding-ruby)
+(global-set-key "\C-c'v" 'rvm-activate-corresponding-ruby)
 ;; rspec mode
 (require 'mode-compile)
 (add-to-list 'load-path "~/.site-lisp/rspec-mode")
