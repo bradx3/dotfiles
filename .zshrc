@@ -174,9 +174,11 @@ function work_exports() {
 }
 alias re='work_exports ./script/rails s -p 3010'
 alias rex='work_exports ./script/rails s -p 3011'
-alias ed='work_exports ./script/rails s -p 3012'
+alias ed='work_exports rackup -p 3012'
 alias ba='work_exports ./script/rails s -p 3013'
 alias ms='work_exports ./script/rails s -p 3014'
+
+alias resn="rvm use 1.9.3 && resn $*"
 
 ###
 # get the name of the branch we are on
