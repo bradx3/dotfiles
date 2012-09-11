@@ -35,7 +35,7 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH=~/bin:~/Dropbox/Blake/sync/bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin/:/opt/local/lib/postgresql83/bin/:$PATH
+PATH=~/bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/opt/local/lib/postgresql83/bin:$PATH:~/Dropbox/Blake/sync/bin
 
 #PATH=~/projects/readingeggs/vendor/plugins/cucumber/bin:$PATH
 export PATH
