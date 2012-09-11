@@ -147,7 +147,7 @@
 ;; Rinari (rails helpers)
 (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 (require 'rinari)
-(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee")
+(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb")
 ;; php mode
 (add-to-list 'load-path (concat home-dir ".site-lisp/php-mode"))
 (require 'php-mode)
@@ -229,10 +229,44 @@
 ;; Define M-h to help  ---  please don't add an extra ' after help!
 (global-set-key "\M-h" 'help)
 ;; add ruby debugging at cursor
-(global-set-key (kbd "C-c d") 
-		(lambda() (interactive) 
-		  (insert "require \"ruby-debug\"; debugger")))
+(global-set-key (kbd "C-c d")
+		(lambda() (interactive)
+		  (insert "debugger")))
 
+;; work helpers
+(add-to-list 'grep-find-ignored-directories ".git")
+(add-to-list 'grep-find-ignored-directories "archive")
+(add-to-list 'grep-find-ignored-directories "assets")
+(add-to-list 'grep-find-ignored-directories "bootstrap")
+(add-to-list 'grep-find-ignored-directories "re2")
+
+;; from emacs-rails
+(defun backward-ruby-word ()
+  (if (looking-back "[-a-zA-Z_#:*]+" (line-beginning-position) t)
+      (goto-char (match-beginning 0))))
+(defun forward-ruby-word (n)
+  (if (> 0 n)
+      (when (search-backward-regexp "[^-a-zA-Z_#:*][-a-zA-Z_#:*]+" nil t (- n))
+        (forward-char)
+        (point))
+    (when (search-forward-regexp "[-a-zA-Z_#:*]+" nil t n)
+      (goto-char (match-end 0)))))
+
+(defun blake-rgrep (&optional arg)
+  "Based on rinari..."
+  (interactive "P")
+  (grep-compute-defaults)
+  (if arg (call-interactively 'rgrep)
+    (let ((query))
+      (if mark-active
+          (setq query (buffer-substring-no-properties (point) (mark)))
+        (setq query (thing-at-point 'ruby-word)))
+      (funcall 'rgrep
+               (read-from-minibuffer "search for: " query)
+               "*.rb *.haml *.rhtml *.erb *.coffee"
+               "~/Blake"))))
+
+(global-set-key (kbd "C-c ' r") 'blake-rgrep)
 
 ;; BACKUP FILES
 
@@ -314,7 +348,7 @@
  '(column-number-mode t)
  '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
- '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments")))
+ '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap")))
  '(paren-match-face (quote paren-face-match-light))
  '(paren-sexp-mode t)
  '(rspec-use-rake-flag nil))
