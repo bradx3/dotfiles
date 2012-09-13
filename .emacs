@@ -266,7 +266,7 @@
                "*.rb *.haml *.rhtml *.erb *.coffee"
                "~/Blake"))))
 
-(global-set-key (kbd "C-c ' r") 'blake-rgrep)
+(global-set-key (kbd "C-c , r") 'blake-rgrep)
 
 ;; BACKUP FILES
 
