@@ -159,6 +159,11 @@ function ghb() {
   hub browse -- commit/$1
 }
 
+function gdt() {
+  git tag -d $1;
+  git push origin :refs/tags/$1
+}
+
 #heroku helpers
 alias hp="git push heroku master"
 alias hl="heroku logs"
