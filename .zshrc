@@ -5,7 +5,8 @@ zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
 zmodload -a zsh/zprof zprof
 zmodload -ap zsh/mapfile mapfile
-
+autoload -U compinit
+compinit
 
 ###
 # setup options
@@ -185,6 +186,31 @@ alias ms='work_exports ./script/rails s -p 3014'
 
 alias resn="rvm use 1.9.3 && resn $*"
 
+##
+# work gem helpers
+##
+function dv() {
+  for gem in $*; do; $(develop $gem); done
+  bundle
+}
+function dr() {
+  for gem in $*; do; $(develop --reset $gem); done
+  bundle
+}
+
+BLAKE_GEMS='blake-common blake-shared blake-corpus blake-data-source blake-data-models caper-activities Caper kafka-rb lograge'
+
+_blake_gems() {
+  _arguments -s : \
+      '--reset' \
+      ":develop:($BLAKE_GEMS)"
+}
+
+compdef _blake_gems develop
+compdef _blake_gems dv
+compdef _blake_gems dr
+
+
 ###
 # get the name of the branch we are on
 ###
@@ -304,8 +330,6 @@ fi
 ###
 # Bunch of stuff I haven't figured out if I need yet
 ###
-autoload -U compinit
-compinit
 bindkey '^r' history-incremental-search-backward
 bindkey "^[[5~" up-line-or-history
 bindkey "^[[6~" down-line-or-history
