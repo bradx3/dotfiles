@@ -1,7 +1,6 @@
 
 ;; to recompile all files after updating:
 ;; C-u 0 M-x byte-recompile-directory
-
 (server-start)
 
 (setq-default line-spacing 2)
@@ -39,6 +38,28 @@
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(egg-git-command "/opt/local/bin/git")
+ '(fringe-mode 0 nil (fringe))
+ '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap" "archive" "re2" "assets")))
+ '(paren-match-face (quote paren-face-match-light))
+ '(paren-sexp-mode t)
+ '(rspec-use-rake-flag nil)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Droid Sans Mono"))))
+ '(rainbow-delimiters-depth-1-face ((((background dark)) (:foreground "#ffffff"))))
+ '(rainbow-delimiters-depth-2-face ((((background dark)) (:foreground "#6085ff")))))
+
 ;; uniquify
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse)
@@ -56,6 +77,17 @@
 
 ;; two panes
 (split-window-horizontally)
+
+;; window size and location
+(message system-name)
+(if (string-equal system-name "brad-work.local")
+    (progn
+      (set-frame-position (selected-frame) 300 0)
+      (set-frame-height (selected-frame) 50)
+      (set-frame-width (selected-frame) 170)
+      (message "moved")))
+
+
 
 ;; setup path
 (defun set-exec-path-from-shell-PATH ()
@@ -234,11 +266,6 @@
 		  (insert "debugger")))
 
 ;; work helpers
-(add-to-list 'grep-find-ignored-directories ".git")
-(add-to-list 'grep-find-ignored-directories "archive")
-(add-to-list 'grep-find-ignored-directories "assets")
-(add-to-list 'grep-find-ignored-directories "bootstrap")
-(add-to-list 'grep-find-ignored-directories "re2")
 
 ;; from emacs-rails
 (defun backward-ruby-word ()
@@ -339,27 +366,6 @@
     (shell-command (buffer-file-name))))
 (global-set-key (kbd "<f7>") 'run-current-file)
 
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(egg-git-command "/opt/local/bin/git")
- '(fringe-mode 0 nil (fringe))
- '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap")))
- '(paren-match-face (quote paren-face-match-light))
- '(paren-sexp-mode t)
- '(rspec-use-rake-flag nil))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Droid Sans Mono"))))
- '(rainbow-delimiters-depth-1-face ((((background dark)) (:foreground "#ffffff"))))
- '(rainbow-delimiters-depth-2-face ((((background dark)) (:foreground "#6085ff")))))
 
 (defun swap-windows ()
  "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
