@@ -290,7 +290,7 @@
         (setq query (thing-at-point 'ruby-word)))
       (funcall 'rgrep
                (read-from-minibuffer "search for: " query)
-               "*.rb *.haml *.rhtml *.erb *.coffee"
+               "*.rb *.haml *.rhtml *.erb *.coffee *.rake"
                "~/Blake"))))
 
 (global-set-key (kbd "C-c , r") 'blake-rgrep)
