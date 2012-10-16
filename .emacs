@@ -86,6 +86,7 @@
 (add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
 
 ;; two panes
+(split-window-vertically)
 (split-window-horizontally)
 
 ;; window size and location
