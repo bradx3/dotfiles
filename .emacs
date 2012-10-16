@@ -94,11 +94,9 @@
 (if (string-equal system-name "brad-work.local")
     (progn
       (set-frame-position (selected-frame) 300 0)
-      (set-frame-height (selected-frame) 50)
+      (set-frame-height (selected-frame) 72)
       (set-frame-width (selected-frame) 170)
       (message "moved")))
-
-
 
 ;; setup path
 (defun set-exec-path-from-shell-PATH ()
