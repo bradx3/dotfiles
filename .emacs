@@ -91,13 +91,17 @@
 (split-window-horizontally)
 
 ;; window size and location
-(message system-name)
-(if (string-equal system-name "brad-work.local")
-    (progn
-      (set-frame-position (selected-frame) 300 0)
-      (set-frame-height (selected-frame) 72)
-      (set-frame-width (selected-frame) 170)
-      (message "moved")))
+(defun work-position ()
+  "sets up the frame for work"
+  (interactive)
+  (set-frame-position (selected-frame) 300 0)
+  (set-frame-height (selected-frame) 72)
+  (set-frame-width (selected-frame) 170)
+  (message "moved"))
+
+(if (or (string-equal system-name "brad-work.local")
+        (string-match "pascal.net.au" system-name))
+    (work-position))
 
 ;; setup path
 (defun set-exec-path-from-shell-PATH ()
