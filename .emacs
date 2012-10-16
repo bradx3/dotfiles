@@ -210,6 +210,12 @@
 (setq rspec-use-rake-flag nil)
 (setq rspec-use-rvm t)
 (require 'rspec-mode)
+(defadvice rspec-compile (around rspec-compile-around)
+  "Use BASH shell for running the specs because of ZSH issues."
+  (let ((shell-file-name "/bin/bash"))
+    ad-do-it))
+(ad-activate 'rspec-compile)
+
 ;; magit
 (add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
 (require 'magit)
