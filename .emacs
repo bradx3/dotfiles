@@ -11,6 +11,7 @@
 (setq case-fold-search t)
 ; auto delete selection on typing
 (delete-selection-mode t)
+
 ; alt-left right up down to change split frames
 (require 'windmove)
 (windmove-default-keybindings 'meta)
@@ -305,7 +306,7 @@
         (setq query (thing-at-point 'ruby-word)))
       (funcall 'rgrep
                (read-from-minibuffer "search for: " query)
-               "*.rb *.haml *.rhtml *.erb *.coffee *.rake"
+               "*.rb *.haml *.rhtml *.erb *.coffee *.rake *.sass *.scss"
                "~/Blake"))))
 
 (global-set-key (kbd "C-c , r") 'blake-rgrep)
