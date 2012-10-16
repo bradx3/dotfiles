@@ -471,6 +471,36 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
   (interactive)
   (indent-region (point-min) (point-max) nil))
 
+;; From https://github.com/garybernhardt/dotfiles/blob/master/.emacs
+; GRB: open temporary buffers in a dedicated window split
+(setq special-display-regexps
+        '("^\\*Completions\\*$"
+          "^\\*Help\\*$"
+          "^\\*grep\\*$"
+          "^\\*Apropos\\*$"
+          "^\\*elisp macroexpansion\\*$"
+          "^\\*local variables\\*$"
+          "^\\*Compile-Log\\*$"
+          "^\\*Quail Completions\\*$"
+          "^\\*Occur\\*$"
+          "^\\*frequencies\\*$"
+          "^\\*compilation\\*$"
+          "^\\*Locate\\*$"
+          "^\\*Colors\\*$"
+          "^\\*tumme-display-image\\*$"
+          "^\\*SLIME Description\\*$"
+          "^\\*.* output\\*$"           ; tex compilation buffer
+          "^\\*TeX Help\\*$"
+          "^\\*Shell Command Output\\*$"
+          "^\\*Async Shell Command\\*$"
+          "^\\*Backtrace\\*$"))
+(setq grb-temporary-window (nth 2 (window-list)))
+(defun grb-special-display (buffer &optional data)
+  (let ((window grb-temporary-window))
+    (with-selected-window window
+      (switch-to-buffer buffer)
+      window)))
+(setq special-display-function #'grb-special-display)
 
 ; http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
 (defun djcb-duplicate-line (&optional commentfirst)
