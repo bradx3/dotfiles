@@ -14,6 +14,16 @@
 ; alt-left right up down to change split frames
 (require 'windmove)
 (windmove-default-keybindings 'meta)
+(defun toggle-main-windows ()
+  "Switches between main code windows"
+  (interactive)
+  (cond
+   ((windmove-find-other-window 'left) (windmove-left))
+   ((windmove-find-other-window 'right) (windmove-right))
+   ((windmove-find-other-window 'up) (windmove-up))
+   ((windmove-find-other-window 'down) (windmove-down))))
+(global-set-key "\C-x\ o" 'toggle-main-windows)
+
 ; change yes-or-no to y-or-n
 (fset 'yes-or-no-p 'y-or-n-p)
 (set-default 'truncate-lines t)
