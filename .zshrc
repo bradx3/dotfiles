@@ -121,6 +121,7 @@ alias rake="bundle exec rake --trace"
 alias be="bundle exec"
 alias swr="source .rvmrc"
 alias reports="RAILS_ENV=reports"
+alias zt="zeus test"
 
 # svn helpers
 alias sst="svn st"
@@ -134,11 +135,11 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 # git helpers
 alias git="nocorrect git"
 alias gst='git status'
-alias gl='git pull origin $(git_current_branch)'
-alias gup='git fetch origin && git rebase -p origin/$(git_current_branch)'
+alias gl='git log -n 1'
+alias gup='git fetch --prune origin && git rebase -p origin/$(git_current_branch)'
 alias gmt='git mergetool'
 alias gp='git push --tags origin $(git_current_branch) && gf'
-alias gf='git fetch'
+alias gf='git fetch --prune'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gb='git branch'
@@ -154,6 +155,7 @@ alias gfr='git flow feature rebase'
 alias gfc='git flow feature checkout'
 alias gua='git config core.ignorecase true && gup && git config core.ignorecase false'
 alias glc="git log -n 1 --pretty=format:%B | pbcopy"
+alias hb="hub browse"
 # see also gco below
 
 function ghb() {
@@ -183,7 +185,7 @@ alias rex='work_exports ./script/rails s -p 3011'
 alias ed='work_exports rackup -p 3012'
 alias ba='work_exports ./script/rails s -p 3013'
 alias ms='work_exports ./script/rails s -p 3014'
-
+alias rea='rake manage_assets:deploy_to_cdn && rm -Rf public/assets && git co public/assets/manifest.yml'
 alias resn="rvm use 1.9.3 && resn $*"
 
 ##
@@ -320,9 +322,10 @@ fi
 
 # Autojump
 if [ -f /usr/local/bin/brew ]; then
-  if [ -f `brew --prefix`/etc/autojump ]; then
-    . `brew --prefix`/etc/autojump
-  fi
+  [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+  # if [ -f `brew --prefix`/etc/autojump ]; then
+  #   . `brew --prefix`/etc/autojump
+  # fi
 elif [ -f /usr/share/autojump/autojump.sh ]; then
   .  /usr/share/autojump/autojump.sh
 fi
