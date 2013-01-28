@@ -214,6 +214,7 @@
 (add-to-list 'load-path "~/.site-lisp/rspec-mode")
 (setq rspec-use-rake-flag nil)
 (setq rspec-use-rvm t)
+(setq rspec-use-bundler-when-possible nil)
 (require 'rspec-mode)
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
