@@ -39,6 +39,19 @@ rescue LoadError
   puts $!
 end
 
+# ap for nice printing
+begin
+  require 'awesome_print'
+  IRB::Irb.class_eval do
+    def output_value
+      ap(@context.last_value)
+    end
+  end
+rescue LoadError
+  puts "No awesome_print idiot"
+  Kernal.exit(1)
+end
+
 # Easily edit and run code snippets
 #require 'sketches'
 #Sketches.config(:editor => "nano")
@@ -56,7 +69,8 @@ class Object
   def local_methods(obj = self)
     (obj.methods - Object.instance_methods).sort
   end
-  
+  alias_method :lm, :local_methods
+
   # print documentation
   #
   #   ri 'Array#pop'
