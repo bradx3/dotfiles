@@ -1,0 +1,5 @@
+---
+:mysql_slave:
+  :name: Mysql slave db
+  :mport: 50000
+  :command: -f re-db-slave-tunnel -N
