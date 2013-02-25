@@ -551,6 +551,19 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
                (indent-line-to arg-indent)))
         (when (> offset 0) (forward-char offset))))))
 
+
+(defun goto-column-number (number)
+"Untabify, and go to a column number within the current line (1 is beginning
+of the line)."
+(interactive "nColumn number ( - 1 == C) ? ")
+(beginning-of-line)
+(untabify (point-min) (point-max))
+(while (> number 1)
+ (if (eolp)
+     (insert ? )
+   (forward-char))
+ (setq number (1- number))))
+
 ;; final setup of smex
 ;; needs to be at end of file
 (smex-initialize)
