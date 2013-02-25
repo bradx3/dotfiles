@@ -178,6 +178,7 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.as$" . javascript-mode))
+(setq js-indent-level 2)
 (autoload 'javascript-mode "javascript" nil t)
 ;; css mode
 (autoload 'css-mode "css-mode-simple" nil t)
