@@ -216,6 +216,7 @@
 (setq rspec-use-rake-flag nil)
 (setq rspec-use-rvm t)
 (setq rspec-use-bundler-when-possible nil)
+(setq rspec-use-opts-file-when-available t)
 (require 'rspec-mode)
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
@@ -312,7 +313,7 @@
         (setq query (thing-at-point 'ruby-word)))
       (funcall 'rgrep
                (read-from-minibuffer "search for: " query)
-               "*.rb *.haml *.rhtml *.erb *.coffee *.rake *.sass *.scss"
+               "*.rb *.haml *.rhtml *.erb *.coffee *.rake *.sass *.scss Gemfile Gemfile.lock"
                "~/Blake"))))
 
 (global-set-key (kbd "C-c , r") 'blake-rgrep)
@@ -492,6 +493,7 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
           "^\\*Occur\\*$"
           "^\\*frequencies\\*$"
           "^\\*compilation\\*$"
+          "^\\*rspec-compilation\\*$"
           "^\\*Locate\\*$"
           "^\\*Colors\\*$"
           "^\\*tumme-display-image\\*$"
