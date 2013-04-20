@@ -195,6 +195,7 @@
 (add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
 (require 'rinari)
 (setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb")
+(global-rinari-mode)
 ;; php mode
 (add-to-list 'load-path (concat home-dir ".site-lisp/php-mode"))
 (require 'php-mode)
