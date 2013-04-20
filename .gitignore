@@ -1,2 +1,6 @@
 *.elc
 .runnel/pids
+.emacs.d/auto-save-list
+.emacs.d/elpa
+.emacs.d/.org-id-locations
+.emacs.d/tramp
