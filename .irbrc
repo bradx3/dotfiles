@@ -16,6 +16,35 @@ require 'irb/completion'
 # Automatic Indentation
 IRB.conf[:AUTO_INDENT]=true
 
+# Allow loading gems that aren't in bundler
+def unbundled_require(gem)
+  loaded = false
+  if defined?(::Bundler)
+    Gem.path.each do |gems_path|
+      gem_path = Dir.glob("#{gems_path}/gems/#{gem}*").last
+      unless gem_path.nil?
+        $LOAD_PATH << "#{gem_path}/lib"
+        require gem
+        loaded = true
+      end
+    end
+  else
+    require gem
+    loaded = true
+  end
+  raise(LoadError, "couldn't find #{gem}") unless loaded
+  loaded
+end
+def load_gem(gem, &block)
+  begin
+    if unbundled_require gem
+      yield if block_given?
+    end
+  rescue Exception => err
+    warn "Couldn't load #{gem}: #{err}"
+  end
+end
+
 # Table-ise results, etc
 begin
   require 'hirb'
@@ -40,16 +69,12 @@ rescue LoadError
 end
 
 # ap for nice printing
-begin
-  require 'awesome_print'
+load_gem("awesome_print") do
   IRB::Irb.class_eval do
     def output_value
       ap(@context.last_value)
     end
   end
-rescue LoadError
-  puts "No awesome_print idiot"
-  Kernal.exit(1)
 end
 
 # Easily edit and run code snippets
