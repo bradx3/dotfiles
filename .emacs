@@ -33,6 +33,12 @@
 ; don't popup a new frame for files dropped on dock
 (setq ns-pop-up-frames nil)
 
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  )
+
 ;; set ido mode
 (ido-mode t)
 (setq ido-enable-flex-matching t) ; fuzzy matching is a must have
@@ -78,13 +84,8 @@
 (setq uniquify-after-kill-buffer-p t) ; rename after killing uniquified
 (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
-;; set up zone (screensaver type thing)
-;(zone-when-idle 1800)
-
 ;; directory to put various el files into
 (defvar home-dir (concat (expand-file-name "~") "/"))
-(add-to-list 'load-path (concat home-dir ".site-lisp"))
-(add-to-list 'load-path (concat home-dir ".site-lisp/color-theme-6.6.0"))
 
 ;; two panes
 (split-window-vertically)
@@ -115,8 +116,6 @@
       delete-by-moving-to-trash t)
 
 ;; set smex
-(add-to-list 'load-path (concat home-dir ".site-lisp/smex/"))
-(require 'smex)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c M-x") 'smex-update-and-run)
@@ -124,24 +123,15 @@
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; rainbow delimiters
-(add-to-list 'load-path (concat home-dir ".site-lisp/rainbow-delimiters/"))
 (setq-default frame-background-mode 'dark)
-(require 'rainbow-delimiters)
 
 ;; ruby block
-(add-to-list 'load-path (concat home-dir ".site-lisp/ruby-block/"))
 (require 'ruby-block)
 (ruby-block-mode t)
 (setq ruby-block-highlight-toggle t)
 
 ;; browse kill ring
-(add-to-list 'load-path (concat home-dir ".site-lisp/browse-kill-ring/"))
-(require 'browse-kill-ring)
 (setq browse-kill-ring-quit-action 'save-and-restore)
-
-;; browse kill ring plus
-(add-to-list 'load-path (concat home-dir ".site-lisp/browse-kill-ring-plus/"))
-(require 'browse-kill-ring+)
 
 ;; MODES
 
@@ -167,12 +157,8 @@
 ;;; (shell-command-on-region (point-min) (point-max) "ruby"))
 
 ;; haml mode
-(add-to-list 'load-path (concat home-dir ".site-lisp/haml"))
-(require 'haml-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 ;; sass mode
-(add-to-list 'load-path (concat home-dir ".site-lisp/sass"))
-(require 'sass-mode nil 't)
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
 ;; js mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
@@ -184,40 +170,24 @@
 (autoload 'css-mode "css-mode-simple" nil t)
 (add-to-list 'auto-mode-alist '(".css$" . css-mode))
 ;; yaml mode
-(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 ;; cucumber mode
-(add-to-list 'load-path "~/.site-lisp/cucumber.el")
-;; and load it
-(require 'feature-mode)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 ;; Rinari (rails helpers)
-(add-to-list 'load-path (concat home-dir ".site-lisp/rinari"))
-(require 'rinari)
 (setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb")
-;; php mode
-(add-to-list 'load-path (concat home-dir ".site-lisp/php-mode"))
-(require 'php-mode)
+(global-rinari-mode)
 ;; csv mode
 (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
 (autoload 'csv-mode "csv-mode"
   "Major mode for editing comma-separated value files." t)
-;; Markdown mode
-;;(add-to-list 'load-path (concat home-dir ".site-lisp/markdown-mode"))
-;;(require 'markdown-mode)
 ;; rvm mode
-(add-to-list 'load-path "~/.site-lisp/rvm")
-(require 'rvm)
 (rvm-use-default)
 (global-set-key "\C-c'v" 'rvm-activate-corresponding-ruby)
 ;; rspec mode
-(require 'mode-compile)
-(add-to-list 'load-path "~/.site-lisp/rspec-mode")
 (setq rspec-use-rake-flag nil)
 (setq rspec-use-rvm t)
 (setq rspec-use-bundler-when-possible nil)
 (setq rspec-use-opts-file-when-available t)
-(require 'rspec-mode)
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
   (let ((shell-file-name "/bin/bash"))
@@ -225,27 +195,17 @@
 (ad-activate 'rspec-compile)
 
 ;; magit
-(add-to-list 'load-path (concat home-dir ".site-lisp/magit"))
-(require 'magit)
 (global-set-key "\C-c,g" 'magit-status)
 ;; mo-git-blame
-(add-to-list 'load-path "~/.site-lisp/mo-git-blame")
 (autoload 'mo-git-blame-file "mo-git-blame" nil t)
 (autoload 'mo-git-blame-current "mo-git-blame" nil t)
-;; fuzzy-format to keep tabs/spaces consistent
-(require 'fuzzy-format)
-(setq fuzzy-format-default-indent-tabs-mode nil)
-(global-fuzzy-format-mode t)
 ;; coffee mode
-(add-to-list 'load-path "~/.site-lisp/coffee-mode")
-(require 'coffee-mode)
 (defun coffee-custom ()
   "coffee-mode-hook"
   (set (make-local-variable 'tab-width) 2))
 (add-hook 'coffee-mode-hook
           '(lambda() (coffee-custom)))
 ;; textile mode
-(require 'textile-mode)
 (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 ;; hideshow ruby support
 (defun ruby-hs-minor-mode (&optional arg)
@@ -263,9 +223,6 @@
                  )
            hs-special-modes-alist)))
   (hs-minor-mode arg))
-;; handlebars mode
-(add-to-list 'load-path "~/.site-lisp/handlebars-mode")
-(require 'handlebars-mode)
 
 ;; (load "nxhtml/autostart.el")
 ;;  (setq
@@ -354,13 +311,9 @@
 (setq-default outline-minor-mode-prefix  "\C-c") 
 
 ;; load color themes
-(require 'color-theme)
 (color-theme-initialize)
 (setq color-theme-is-global t)
-;(load-file (concat home-dir ".site-lisp/zenburn.el"))
-;(load-file (concat home-dir ".site-lisp/twilight.el"))
-(load-file (concat home-dir ".site-lisp/color-theme-subdued.el"))
-;(load-file (concat home-dir ".site-lisp/solarized/color-theme-sanityinc-solarized.el"))
+(load-file (concat home-dir ".emacs.d/color-theme-subdued.el"))
 
 (color-theme-subdued)
 
