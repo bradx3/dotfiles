@@ -185,6 +185,7 @@
 (global-set-key "\C-c'v" 'rvm-activate-corresponding-ruby)
 ;; rspec mode
 (setq rspec-use-rake-flag nil)
+(setq rspec-use-rake-when-possible nil)
 (setq rspec-use-rvm t)
 (setq rspec-use-bundler-when-possible nil)
 (setq rspec-use-opts-file-when-available t)
