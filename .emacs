@@ -174,7 +174,7 @@
 ;; cucumber mode
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 ;; Rinari (rails helpers)
-(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb")
+(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb *.emblem")
 (global-rinari-mode)
 ;; csv mode
 (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
@@ -271,7 +271,7 @@
         (setq query (thing-at-point 'ruby-word)))
       (funcall 'rgrep
                (read-from-minibuffer "search for: " query)
-               "*.rb *.haml *.rhtml *.erb *.coffee *.rake *.sass *.scss Gemfile Gemfile.lock"
+               "*.rb *.haml *.rhtml *.erb *.coffee *.rake *.sass *.scss Gemfile Gemfile.lock *.emblem"
                "~/Blake"))))
 
 (global-set-key (kbd "C-c , r") 'blake-rgrep)
