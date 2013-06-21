@@ -185,8 +185,12 @@ alias rex='work_exports ./script/rails s -p 3011'
 alias ed='work_exports rackup -p 3012'
 alias ba='work_exports ./script/rails s -p 3013'
 alias ms='work_exports ./script/rails s -p 3014'
+alias rx='work_exports ./script/rails s -p 3015'
 alias rea='rake manage_assets:deploy_to_cdn && rm -Rf public/assets && git co public/assets/manifest.yml'
 alias resn="rvm use 1.9.3 && resn $*"
+if [[ -s ~/Blake/bx/bin/bx ]] ; then
+  eval "$($HOME/Blake/bx/bin/bx init -)"
+fi
 
 ##
 # work gem helpers
