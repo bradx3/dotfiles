@@ -464,6 +464,7 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
       (switch-to-buffer buffer)
       window)))
 (setq special-display-function #'grb-special-display)
+(setq-default display-buffer-reuse-frames t)
 
 ; http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
 (defun djcb-duplicate-line (&optional commentfirst)
