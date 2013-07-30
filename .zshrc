@@ -178,6 +178,7 @@ function work_exports() {
     EGGSPRESS_DATA=http://localhost:3012 \
     BLAKE_ADMIN=http://localhost:3013 \
     MS_STUDENT=http://localhost:3014 \
+    RE_STUDENT=http://localhost:3015 \
     $*
 }
 alias re='work_exports ./script/rails s -p 3010'
@@ -185,9 +186,10 @@ alias rex='work_exports ./script/rails s -p 3011'
 alias ed='work_exports rackup -p 3012'
 alias ba='work_exports ./script/rails s -p 3013'
 alias ms='work_exports ./script/rails s -p 3014'
-alias rx='work_exports ./script/rails s -p 3015'
+alias res='work_exports ./script/rails s -p 3015'
+alias cu='rake test_server PORT=3016'
+alias wfs='rvm use ruby-1.9.3@word-flyers && REDIS_HOST_URL="redis://localhost:6379" bin/rails server -p 3017'
 alias rea='rake manage_assets:deploy_to_cdn && rm -Rf public/assets && git co public/assets/manifest.yml'
-alias resn="rvm use 1.9.3 && resn $*"
 if [[ -s ~/Blake/bx/bin/bx ]] ; then
   eval "$($HOME/Blake/bx/bin/bx init -)"
 fi
