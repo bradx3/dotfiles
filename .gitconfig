@@ -25,3 +25,5 @@
   untracked = cyan
 [merge]
 	tool = opendiff
+[github]
+	user = bradx3
