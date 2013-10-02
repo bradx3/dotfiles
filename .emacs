@@ -466,6 +466,10 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 (setq special-display-function #'grb-special-display)
 (setq-default display-buffer-reuse-frames t)
 
+;; stop emacs from splitting http://blog.mpacula.com/2012/01/28/howto-prevent-emacs-from-splitting-windows/
+(setq split-height-threshold 1200)
+(setq split-width-threshold 2000)
+
 ; http://emacs-fu.blogspot.com/2010/01/duplicating-lines-and-commenting-them.html
 (defun djcb-duplicate-line (&optional commentfirst)
   "comment line at point; if COMMENTFIRST is non-nil, comment the original" 
