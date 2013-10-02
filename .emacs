@@ -271,7 +271,7 @@
         (setq query (thing-at-point 'ruby-word)))
       (funcall 'rgrep
                (read-from-minibuffer "search for: " query)
-               "*.rb *.haml *.rhtml *.erb *.coffee *.rake *.sass *.scss Gemfile Gemfile.lock *.emblem"
+               "*.rb *.haml *.rhtml *.erb *.coffee *.rake *.sass *.scss Gemfile Gemfile.lock *.emblem *.yml"
                "~/Blake"))))
 
 (global-set-key (kbd "C-c , r") 'blake-rgrep)
