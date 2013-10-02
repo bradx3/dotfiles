@@ -68,6 +68,9 @@ rescue LoadError
   puts $!
 end
 
+# ips for benchmarking
+load_gem("benchmark-ips")
+
 # ap for nice printing
 load_gem("awesome_print") do
   IRB::Irb.class_eval do
