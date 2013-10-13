@@ -63,7 +63,7 @@
  '(column-number-mode t)
  '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
- '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap" "archive" "re2" "assets/teacher_toolkit")))
+ '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap" "archive" "re2" "assets/teacher_toolkit" "assets/repos")))
  '(paren-match-face (quote paren-face-match-light))
  '(paren-sexp-mode t)
  '(rspec-use-rake-flag nil)
