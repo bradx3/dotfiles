@@ -124,8 +124,19 @@ end
 
 # Work finders
 def winny
-  Student.find(151984)
+  if Student.respond_to?(:fields)
+    columns = Student.fields.map(&:first) # mongoid
+  else
+    columns = Student.column_names
+  end
+
+  if columns.include?("remote_id")
+    Student.where(remote_id: 151984).first
+  else
+    Student.find(151984)
+  end
 end
+
 def bradx3
   Parent.find_by_login("bradx3")
 end
