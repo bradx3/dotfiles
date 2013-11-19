@@ -191,34 +191,11 @@ alias res='work_exports bundle exec rails s -p 3015'
 alias cu='rake test_server PORT=3016'
 alias wfs='rvm use ruby-1.9.3@word-flyers && REDIS_HOST_URL="redis://localhost:6379" bin/rails server -p 3017'
 alias rea='rake manage_assets:deploy_to_cdn && rm -Rf public/assets && git co public/assets/manifest.yml'
+alias ds='gup && bc && bundle exec rake manage_assets:deploy_to_cdn && gup && gp && bundle exec cap staging deploy'
+alias mc='memcached -I 5m -vv'
 if [[ -s ~/Blake/bx/bin/bx ]] ; then
   eval "$($HOME/Blake/bx/bin/bx init -)"
 fi
-
-##
-# work gem helpers
-##
-function dv() {
-  for gem in $*; do; $(develop $gem); done
-  bundle
-}
-function dr() {
-  for gem in $*; do; $(develop --reset $gem); done
-  bundle
-}
-
-BLAKE_GEMS='blake-common blake-shared blake-corpus blake-data-source blake-data-models caper-activities Caper kafka-rb lograge'
-
-_blake_gems() {
-  _arguments -s : \
-      '--reset' \
-      ":develop:($BLAKE_GEMS)"
-}
-
-compdef _blake_gems develop
-compdef _blake_gems dv
-compdef _blake_gems dr
-
 
 ###
 # get the name of the branch we are on
@@ -254,6 +231,18 @@ gbd() {
   git push origin :feature/$1
 }
 
+#
+# Run a command x times
+# http://www.stefanoforenza.com/how-to-repeat-a-shell-command-n-times/
+#
+runx() {
+    n=$1
+    shift
+    while [ $(( n -= 1 )) -ge 0 ]
+    do
+        "$@"
+    done
+}
 
 ###
 # Called before prompt shown
