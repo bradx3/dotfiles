@@ -346,6 +346,15 @@
     (shell-command (buffer-file-name))))
 (global-set-key (kbd "<f7>") 'run-current-file)
 
+(defun github-current-file ()
+  "Show the current file in github"
+  (interactive)
+  (shell-command
+   (concat "cd "
+	   (current-git-repo)
+	   "&& gh "
+	   (replace-regexp-in-string (current-git-repo) "" buffer-file-name))))
+
 
 (defun swap-windows ()
  "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
@@ -379,7 +388,7 @@
   (and (buffer-file-name buffer)
        (string-match subdir (buffer-file-name buffer))))
 
-(defun current-git-repo
+(defun current-git-repo ()
   "Returns the path to the git repo for the current buffer"
   (magit-get-top-dir (file-name-directory buffer-file-name)))
 

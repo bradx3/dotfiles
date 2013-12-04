@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# https://gist.github.com/richardmcmillen-examtime/7448300
+#
+# Open the specified file on GitHub. It will use the master branch by default:
+#
+#   repo -f app/controllers/application_controller.rb
+#
+# Specify a different branch:
+#
+#   repo -b another-branch -f app/controllers/application_controller.rb
+
+if [ -d .git ]; then
+  echo "Opening on Github..."
+
+  # Set the default branch to current branch instead of 'master'
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  #BRANCH='master'
+
+  FILEPATH=$1
+
+  BASE=$(git config --get remote.origin.url | sed s/\\.git// | sed 's/:/\//' | sed 's/.*github.com/https:\/\/github.com/')
+  URL="$BASE/blob/$BRANCH/$FILEPATH"
+
+  if which xdg-open > /dev/null
+  then
+    xdg-open $URL
+  elif which gnome-open > /dev/null
+  then
+    gnome-open $URL
+  elif which open > /dev/null
+  then
+    open $URL
+  fi
+  echo "Opened $URL"
+else
+  echo "Not a git repo"
+fi
