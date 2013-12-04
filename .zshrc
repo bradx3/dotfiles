@@ -123,6 +123,7 @@ alias bc="(bundle check || bundle)"
 alias swr="source .rvmrc"
 alias reports="RAILS_ENV=reports"
 alias zt="zeus test"
+alias zs="bc && RETRIES=1 nice zeus start"
 
 # svn helpers
 alias sst="svn st"
