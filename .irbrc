@@ -115,6 +115,15 @@ class Object
 end
 
 # copy paste
+def capture(&block)
+  out = StringIO.new
+  $stdout = out
+  yield
+  return out
+ensure
+  $stdout = STDOUT
+end
+
 def paste
   IO.popen('pbpaste') {|clipboard| clipboard.read}
 end
