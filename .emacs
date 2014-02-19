@@ -36,8 +36,9 @@
 (when (>= emacs-major-version 24)
   (require 'package)
   (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  )
+  (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))
+  (when (not package-archive-contents)
+    (package-refresh-contents)))
 
 ;; set ido mode
 (ido-mode t)
