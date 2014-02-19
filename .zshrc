@@ -191,9 +191,9 @@ alias ms='work_exports bundle exec rails s -p 3014'
 alias res='work_exports bundle exec rails s -p 3015'
 alias cu='rake test_server PORT=3016'
 alias wfs='rvm use ruby-1.9.3@word-flyers && REDIS_HOST_URL="redis://localhost:6379" bin/rails server -p 3017'
-alias rea='rake manage_assets:deploy_to_cdn && rm -Rf public/assets && git co public/assets/manifest.yml'
+alias ca='rake manage_assets:deploy_to_cdn && rm -Rf public/assets && git co public/assets/manifest.json'
 alias ds='gup && bc && bundle exec rake manage_assets:deploy_to_cdn && gup && gp && bundle exec cap staging deploy'
-alias mc='memcached -I 5m -vv'
+alias mc='memcached -I 5m -m 256 -vv'
 if [[ -s ~/Blake/bx/bin/bx ]] ; then
   eval "$($HOME/Blake/bx/bin/bx init -)"
 fi
