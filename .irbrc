@@ -149,6 +149,13 @@ end
 def bradx3
   Parent.find_by_login("bradx3")
 end
+
 def bradteacher
   Teacher.find_by_login("bradteacher")
+end
+
+def st
+  reload!
+  ap Delayed::Job.group("queue").count
+  ap Delayed::Job.group("priority").count
 end
