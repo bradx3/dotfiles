@@ -197,7 +197,8 @@
 (ad-activate 'rspec-compile)
 ;; markdown mode
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-
+;; pretty lambda mode
+(global-pretty-lambda-mode)
 ;; magit
 (global-set-key "\C-c,g" 'magit-status)
 ;; mo-git-blame
