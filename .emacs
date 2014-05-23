@@ -189,13 +189,26 @@
 (setq rspec-use-rake-flag nil)
 (setq rspec-use-rake-when-possible nil)
 (setq rspec-use-rvm t)
-(setq rspec-use-bundler-when-possible nil)
+(setq rspec-use-bundler-when-possible t)
 (setq rspec-use-opts-file-when-available t)
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
   (let ((shell-file-name "/bin/bash"))
     ad-do-it))
 (ad-activate 'rspec-compile)
+
+(defun rspec-verify-fast ()
+  "Builds all fast specs in a project"
+  (interactive)
+  (rspec-run (concat (rspec-core-options) " --tag \\~js")))
+(global-set-key "\C-c,f" 'rspec-verify-fast)
+
+(defun rspec-verify-slow ()
+  "Builds all slow specs in a project"
+  (interactive)
+  (rspec-run (concat (rspec-core-options) " --tag js")))
+(global-set-key "\C-c,j" 'rspec-verify-slow)
+
 ;; markdown mode
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 ;; pretty lambda mode
