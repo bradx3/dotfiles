@@ -176,7 +176,7 @@
 ;; cucumber mode
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 ;; Rinari (rails helpers)
-(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb *.emblem")
+(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb *.emblem *.ejs")
 (global-rinari-mode)
 ;; csv mode
 (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
