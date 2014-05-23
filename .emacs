@@ -153,6 +153,7 @@
 ;; loads html mode when erb file load
 (setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".ejs$" . html-mode) auto-mode-alist))
 ;;; (defun ruby-eval-buffer () (interactive)
 ;;; "Evaluate the buffer with ruby."
 ;;; (shell-command-on-region (point-min) (point-max) "ruby"))
