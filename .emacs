@@ -260,9 +260,12 @@
 ;; Define M-h to help  ---  please don't add an extra ' after help!
 (global-set-key "\M-h" 'help)
 ;; add ruby debugging at cursor
-(global-set-key (kbd "C-c d")
-		(lambda() (interactive)
-		  (insert "debugger")))
+(defun bdw-insert-debugger ()
+  (interactive)
+  (if (member (file-name-extension (buffer-file-name)) '("coffee" "js" "ejs"))
+      (insert "debugger")
+      (insert "require 'byebug'; debugger")))
+(global-set-key (kbd "C-c d") 'bdw-insert-debugger)
 
 ;; work helpers
 
