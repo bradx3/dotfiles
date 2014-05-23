@@ -36,7 +36,7 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH=~/bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/opt/local/lib/postgresql83/bin:$PATH:~/Dropbox/Blake/sync/bin
+PATH=~/bin:./bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/opt/local/lib/postgresql83/bin:$PATH
 
 #PATH=~/projects/readingeggs/vendor/plugins/cucumber/bin:$PATH
 export PATH
@@ -109,9 +109,10 @@ alias rs="./script/rails server"
 alias rc="./script/rails console"
 #alias rc="pry -r ./config/environment"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
-alias mb="rake db:migrate && rake db:test:clone"
+alias mb="rake db:migrate && RAILS_ENV=test rake db:schema:load"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
-alias s="bundle exec rspec --order random"
+alias s="bundle exec rspec --order random -p"
+alias sf="s --tag \~js -p"
 alias c="bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
 alias cr="bundle exec cucumber --format rerun --out rerun.txt"
 alias sc="bundle exec cucumber -p selenium"
@@ -119,7 +120,7 @@ alias rt="ctags -e **/*.rb"
 alias rg="rake routes | grep -i"
 alias rake="bundle exec rake --trace"
 alias be="bundle exec"
-alias bc="(bundle check || bundle)"
+alias bc="(bundle check || bundle install --path vendor/bundle)"
 alias swr="source .rvmrc"
 alias reports="RAILS_ENV=reports"
 alias zt="zeus test"
@@ -158,6 +159,7 @@ alias gfc='git flow feature checkout'
 alias gua='git config core.ignorecase true && gup && git config core.ignorecase false'
 alias glc="git log -n 1 --pretty=format:%B | pbcopy"
 alias hb="hub browse"
+alias gco='git checkout'
 # see also gco below
 
 function ghb() {
@@ -174,29 +176,19 @@ alias hp="git push heroku master"
 alias hl="heroku logs"
 
 # work helpers
-function work_exports() {
-    RE=http://localhost:3010 \
-    REX_STUDENT=http://localhost:3011 \
-    EGGSPRESS_DATA=http://localhost:3012 \
-    BLAKE_ADMIN=http://localhost:3013 \
-    MS_STUDENT=http://localhost:3014 \
-    RE_STUDENT=http://localhost:3015 \
-    $*
-}
-alias re='work_exports bundle exec rails s -p 3010'
-alias rex='work_exports bundle exec rails s -p 3011'
-alias ed='work_exports rackup -p 3012'
-alias ba='work_exports bundle exec rails s -p 3013'
-alias ms='work_exports bundle exec rails s -p 3014'
-alias res='work_exports bundle exec rails s -p 3015'
-alias cu='rake test_server PORT=3016'
-alias wfs='rvm use ruby-1.9.3@word-flyers && REDIS_HOST_URL="redis://localhost:6379" bin/rails server -p 3017'
-alias ca='rake manage_assets:deploy_to_cdn && rm -Rf public/assets && git co public/assets/manifest.json'
-alias ds='gup && bc && bundle exec rake manage_assets:deploy_to_cdn && gup && gp && bundle exec cap staging deploy'
 alias mc='memcached -I 5m -m 256 -vv'
-if [[ -s ~/Blake/bx/bin/bx ]] ; then
-  eval "$($HOME/Blake/bx/bin/bx init -)"
-fi
+alias pil='tail -f log/development.log log/bug_hunter.log log/resque.log log/wfm.log log/xero.log'
+alias psd='git push staging'
+alias h='nocorrect heroku'
+alias hc="git log --merges --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=short production/master..master"
+
+function pis() {
+  heroku $* --remote staging
+}
+
+function pip() {
+  heroku $* --remote production
+}
 
 ###
 # get the name of the branch we are on
@@ -212,24 +204,11 @@ function parse_git_dirty {
 }
 
 #
-# Call git checkout
-#
-gco()
-{
-  nocorrect git checkout $*
-  if [[ -s .rvmrc ]] ; then
-    unset rvm_rvmrc_cwd
-    cd ..
-    cd -
-  fi
-}
-
-#
 # Delete local and remote git branch
 #
 gbd() {
-  git branch -D feature/$1
-  git push origin :feature/$1
+  git branch -D $1
+  git push origin :$1
 }
 
 #
@@ -244,6 +223,7 @@ runx() {
         "$@"
     done
 }
+alias runx='nocorrect runx'
 
 ###
 # Called before prompt shown
