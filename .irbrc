@@ -17,27 +17,28 @@ require 'irb/completion'
 IRB.conf[:AUTO_INDENT]=true
 
 # Allow loading gems that aren't in bundler
-def unbundled_require(gem)
+def unbundled_require(gem, options)
   loaded = false
   if defined?(::Bundler)
     Gem.path.each do |gems_path|
       gem_path = Dir.glob("#{gems_path}/gems/#{gem}*").last
       unless gem_path.nil?
         $LOAD_PATH << "#{gem_path}/lib"
-        require gem
+        require(options[:require] || gem)
         loaded = true
       end
     end
   else
-    require gem
+    require(options[:require] || gem)
     loaded = true
   end
   raise(LoadError, "couldn't find #{gem}") unless loaded
   loaded
 end
-def load_gem(gem, &block)
+
+def load_gem(gem, options = {}, &block)
   begin
-    if unbundled_require gem
+    if unbundled_require(gem, options)
       yield if block_given?
     end
   rescue Exception => err
@@ -46,30 +47,16 @@ def load_gem(gem, &block)
 end
 
 # Table-ise results, etc
-begin
-  require 'hirb'
-  Hirb.enable
-  extend Hirb::Console
-rescue LoadError
-  puts $!
-end
+load_gem("hirb")
 
-# # "3".what?(3) lists all methods that return 3
-begin
-  require "what_methods"
-rescue LoadError
-  puts $!
-end
-
-# 'lp' to show method lookup path
-begin
-  require 'looksee/shortcuts'
-rescue LoadError
-  puts $!
-end
+# "3".what?(3) lists all methods that return 3
+load_gem("what_methods")
 
 # ips for benchmarking
-load_gem("benchmark-ips")
+load_gem("benchmark-ips", require: "benchmark/ips")
+
+# better autocomplete
+load_gem("bond")
 
 # ap for nice printing
 load_gem("awesome_print") do
@@ -78,18 +65,6 @@ load_gem("awesome_print") do
       ap(@context.last_value)
     end
   end
-end
-
-# Easily edit and run code snippets
-#require 'sketches'
-#Sketches.config(:editor => "nano")
-
-# Better Autocomplete
-begin
-  require 'bond'
-  Bond.start
-rescue LoadError
-  puts $!
 end
 
 class Object
