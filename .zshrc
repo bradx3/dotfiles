@@ -37,8 +37,6 @@ setopt SHARE_HISTORY          # share history between open shells
 # Setup vars
 ###
 PATH=~/bin:./bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/opt/local/lib/postgresql83/bin:$PATH
-
-#PATH=~/projects/readingeggs/vendor/plugins/cucumber/bin:$PATH
 export PATH
 TZ="Australia/Sydney"
 
@@ -111,14 +109,14 @@ alias rc="./script/rails console"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && RAILS_ENV=test rake db:schema:load"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
-alias s="bundle exec rspec --order random -p"
-alias sf="s --tag \~js -p"
+alias s="rspec --order random --profile 5"
+alias sf="s --tag \~js"
+alias spring="nocorrect spring"
 alias c="bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
 alias cr="bundle exec cucumber --format rerun --out rerun.txt"
 alias sc="bundle exec cucumber -p selenium"
 alias rt="ctags -e **/*.rb"
 alias rg="rake routes | grep -i"
-alias rake="bundle exec rake --trace"
 alias be="bundle exec"
 alias bc="(bundle check || bundle install --path vendor/bundle)"
 alias swr="source .rvmrc"
@@ -141,7 +139,7 @@ alias gst='git status'
 alias gl='git log -n 1'
 alias gup='git fetch --prune origin && git rebase -p origin/$(git_current_branch)'
 alias gmt='git mergetool'
-alias gp='git push --tags origin $(git_current_branch) && gf'
+alias gp='git push origin $(git_current_branch)'
 alias gf='git fetch --prune'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
@@ -159,8 +157,7 @@ alias gfc='git flow feature checkout'
 alias gua='git config core.ignorecase true && gup && git config core.ignorecase false'
 alias glc="git log -n 1 --pretty=format:%B | pbcopy"
 alias hb="hub browse"
-alias gco='git checkout'
-# see also gco below
+alias gco="git checkout"
 
 function ghb() {
   hub browse -- commit/$1
@@ -171,6 +168,20 @@ function gdt() {
   git push origin :refs/tags/$1
 }
 
+function rake() {
+  if [ -f bin/rake ]; then
+      bin/rake --trace $1
+  else
+      rake --trace $1
+  fi
+}
+
+
+function ss() {
+  bin/rspec -P spec/**/*$1*_spec.rb -f d spec
+}
+
+
 #heroku helpers
 alias hp="git push heroku master"
 alias hl="heroku logs"
@@ -180,14 +191,23 @@ alias mc='memcached -I 5m -m 256 -vv'
 alias pil='tail -f log/development.log log/bug_hunter.log log/resque.log log/wfm.log log/xero.log'
 alias psd='git push staging'
 alias h='nocorrect heroku'
-alias hc="git log --merges --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=short production/master..master"
+alias hc="git log --merges --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short production..master"
+alias hdm="git diff production master -- db/migrate"
+alias pg="gem install bond what_methods benchmark-ips --install-dir vendor/bundle/ruby/2.1.0/"
+alias pis='nocorrect pi_staging'
+alias pip='nocorrect pi_production'
+alias pia='nocorrect pi_alpha'
 
-function pis() {
+function pi_staging() {
   heroku $* --remote staging
 }
 
-function pip() {
+function pi_production() {
   heroku $* --remote production
+}
+
+function pi_alpha() {
+  heroku $* --remote launch
 }
 
 ###
@@ -224,6 +244,10 @@ runx() {
     done
 }
 alias runx='nocorrect runx'
+
+r2() {
+  bundle exec rspec $*; HEADLESS=on bundle exec rspec $*
+}
 
 ###
 # Called before prompt shown
@@ -388,3 +412,6 @@ zstyle '*' single-ignored show
 
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
