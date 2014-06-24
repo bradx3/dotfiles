@@ -1,4 +1,3 @@
-
 ;; to recompile all files after updating:
 ;; C-u 0 M-x byte-recompile-directory
 (server-start)
@@ -62,12 +61,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(css-indent-offset 2)
  '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
  '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap" "archive" "re2" "assets/teacher_toolkit" "assets/repos")))
  '(paren-match-face (quote paren-face-match-light))
  '(paren-sexp-mode t)
  '(rspec-use-rake-flag nil)
+ '(rspec-use-rake-when-possible nil)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -88,22 +89,38 @@
 ;; directory to put various el files into
 (defvar home-dir (concat (expand-file-name "~") "/"))
 
-;; two panes
-(split-window-vertically)
-(split-window-horizontally)
-
 ;; window size and location
-(defun work-position ()
-  "sets up the frame for work"
+(defun single-monitor-setup ()
   (interactive)
-  (set-frame-position (selected-frame) 300 0)
-  (set-frame-height (selected-frame) 72)
-  (set-frame-width (selected-frame) 170)
-  (message "moved"))
+  (setq grb-dual-monitor nil)
+  (split-window-vertically)
+  (split-window-horizontally)
+  (setq grb-temporary-window (nth 2 (window-list)))
+  (remove-hook 'compilation-finish-functions 'defocus-compilation-window)
+  (message "single-monitor-setup"))
 
-(if (or (string-equal system-name "brad-work.local")
-        (string-match "pascal.net.au" system-name))
-    (work-position))
+(defun dual-monitor-setup ()
+  "sets up frames for dual monitors"
+  (interactive)
+  (setq grb-dual-monitor t)
+  (split-window-horizontally)
+  (make-frame)
+  (setq grb-temporary-window (nth 0 (window-list (nth 0 (frame-list)))))
+  ;; (set-frame-position (selected-frame) 300 0)
+  ;; (set-frame-height (selected-frame) 72)
+  ;; (set-frame-width (selected-frame) 170)
+  (ns-next-frame)
+  (add-hook 'compilation-finish-functions 'defocus-compilation-window)
+  (message "dual-monitor-setup"))
+
+(defun reset-frames ()
+  "closes all open windows and frames"
+  (interactive)
+  )
+
+;; (if (or (string-equal system-name "brad-work.local")
+;;         (string-match "pascal.net.au" system-name))
+;;     (work-position))
 
 ;; setup path
 (defun set-exec-path-from-shell-PATH ()
@@ -151,17 +168,17 @@
 (setq auto-mode-alist  (cons '(".gemspec$" . ruby-mode) auto-mode-alist))
 (add-hook 'ruby-mode-hook 'rainbow-delimiters-mode)
 ;; loads html mode when erb file load
-(setq auto-mode-alist  (cons '(".html.erb$" . html-mode) auto-mode-alist))
-(setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
-(setq auto-mode-alist  (cons '(".ejs$" . html-mode) auto-mode-alist))
-;;; (defun ruby-eval-buffer () (interactive)
-;;; "Evaluate the buffer with ruby."
-;;; (shell-command-on-region (point-min) (point-max) "ruby"))
+(setq auto-mode-alist (cons '(".html.erb$" . web-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '(".ejs$" . web-mode) auto-mode-alist))
+(set-face-attribute 'web-mode-html-tag-face nil :foreground "#c4a000")
+(set-face-attribute 'web-mode-html-attr-custom-face nil :foreground "#ad7fa8")
 
 ;; haml mode
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 ;; sass mode
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+;; scss mode
+(add-to-list 'auto-mode-alist '("\\.scss$" . less-css-mode))
 ;; js mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
@@ -176,7 +193,7 @@
 ;; cucumber mode
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 ;; Rinari (rails helpers)
-(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb *.emblem *.ejs")
+(setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb *.emblem *.ejs *.scss")
 (global-rinari-mode)
 ;; csv mode
 (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
@@ -211,19 +228,16 @@
 
 ;; markdown mode
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 ;; pretty lambda mode
-(global-pretty-lambda-mode)
+;(global-pretty-lambda-mode)
 ;; magit
 (global-set-key "\C-c,g" 'magit-status)
 ;; mo-git-blame
 (autoload 'mo-git-blame-file "mo-git-blame" nil t)
 (autoload 'mo-git-blame-current "mo-git-blame" nil t)
 ;; coffee mode
-(defun coffee-custom ()
-  "coffee-mode-hook"
-  (set (make-local-variable 'tab-width) 2))
-(add-hook 'coffee-mode-hook
-          '(lambda() (coffee-custom)))
+(setq coffee-tab-width 2)
 ;; textile mode
 (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 ;; hideshow ruby support
@@ -488,7 +502,6 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
           "^\\*Shell Command Output\\*$"
           "^\\*Async Shell Command\\*$"
           "^\\*Backtrace\\*$"))
-(setq grb-temporary-window (nth 2 (window-list)))
 (defun grb-special-display (buffer &optional data)
   (let ((window grb-temporary-window))
     (with-selected-window window
@@ -496,6 +509,16 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
       window)))
 (setq special-display-function #'grb-special-display)
 (setq-default display-buffer-reuse-frames t)
+
+(defun defocus-compilation-window (buffer string)
+  (run-with-timer 1 nil
+		  (lambda (buf)
+		    (message "XXXX")
+		    (ns-next-frame)
+		    (message "YY"))))
+		  ;;   (bury-buffer buf)
+		  ;;   (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+		  ;; buffer)))
 
 ;; stop emacs from splitting http://blog.mpacula.com/2012/01/28/howto-prevent-emacs-from-splitting-windows/
 (setq split-height-threshold 1200)
