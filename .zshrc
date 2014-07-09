@@ -110,14 +110,14 @@ alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && RAILS_ENV=test rake db:schema:load"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
 alias s="rspec --order random --profile 5"
-alias sf="s --tag \~js"
+alias sf="s --tag \~js spec"
 alias spring="nocorrect spring"
 alias c="bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
 alias cr="bundle exec cucumber --format rerun --out rerun.txt"
 alias sc="bundle exec cucumber -p selenium"
 alias rt="ctags -e **/*.rb"
 alias rg="rake routes | grep -i"
-alias be="bundle exec"
+alias be="nocorrect bundle exec"
 alias bc="(bundle check || bundle install --path vendor/bundle)"
 alias swr="source .rvmrc"
 alias reports="RAILS_ENV=reports"
@@ -136,11 +136,11 @@ alias srp="svn propset svn:ignore '*.log' log/ && svn propset svn:ignore '*.db' 
 # git helpers
 alias git="nocorrect git"
 alias gst='git status'
-alias gl='git log -n 1'
-alias gup='git fetch --prune origin && git rebase -p origin/$(git_current_branch)'
+alias gl='git --no-pager log -n 1'
+alias gup='git fetch --prune --tags origin && git rebase -p origin/$(git_current_branch)'
 alias gmt='git mergetool'
 alias gp='git push origin $(git_current_branch)'
-alias gf='git fetch --prune'
+alias gf='git fetch --prune --tags'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gb='git branch'
@@ -178,7 +178,7 @@ function rake() {
 
 
 function ss() {
-  bin/rspec -P spec/**/*$1*_spec.rb -f d spec
+  HEADLESS=on bin/rspec -P spec/**/*$1*_spec.rb -f d spec
 }
 
 
@@ -191,8 +191,8 @@ alias mc='memcached -I 5m -m 256 -vv'
 alias pil='tail -f log/development.log log/bug_hunter.log log/resque.log log/wfm.log log/xero.log'
 alias psd='git push staging'
 alias h='nocorrect heroku'
-alias hc="git log --merges --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short production..master"
-alias hdm="git diff production master -- db/migrate"
+alias hc="git --no-pager log --merges --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short production..master"
+alias hdm="git --no-pager diff production master -- db/migrate"
 alias pg="gem install bond what_methods benchmark-ips --install-dir vendor/bundle/ruby/2.1.0/"
 alias pis='nocorrect pi_staging'
 alias pip='nocorrect pi_production'
