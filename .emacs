@@ -167,13 +167,16 @@
 (setq auto-mode-alist  (cons '(".ru$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".gemspec$" . ruby-mode) auto-mode-alist))
 (add-hook 'ruby-mode-hook 'rainbow-delimiters-mode)
+(setq ruby-deep-indent-paren nil)
 ;; loads html mode when erb file load
 (require 'web-mode)
 (setq auto-mode-alist (cons '(".html.erb$" . web-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '(".ejs$" . web-mode) auto-mode-alist))
 (set-face-attribute 'web-mode-html-tag-face nil :foreground "#c4a000")
 (set-face-attribute 'web-mode-html-attr-custom-face nil :foreground "#ad7fa8")
-
+;; flymake syntax checking
+(require 'flymake-ruby)
+(add-hook 'ruby-mode-hook 'flymake-ruby-load)
 ;; haml mode
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 ;; sass mode
@@ -197,7 +200,10 @@
 ;; Rinari (rails helpers)
 (setq rinari-rgrep-file-endings "*.rb *.css *.rhtml *.sass *.haml *.rake *.js *.yml *.csv *.feature *.handlebars *.coffee *.erb *.emblem *.ejs *.scss")
 ;(setq rinari-major-modes (list 'web-mode-hook 'ruby-mode-hook 'rspec-mode-hook 'css-mode-hook 'less-css-mode-hook 'yaml-mode-hook 'javascript-mode-hook 'coffee-mode-hook))
-(global-rinari-mode)
+;(global-rinari-mode)
+;; rails helpers
+(projectile-global-mode)
+(add-hook 'projectile-mode-hook 'projectile-rails-on)
 ;; csv mode
 (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
 (autoload 'csv-mode "csv-mode"
