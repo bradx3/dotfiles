@@ -217,6 +217,7 @@
 (setq rspec-use-rvm t)
 (setq rspec-use-bundler-when-possible t)
 (setq rspec-use-opts-file-when-available t)
+(setenv "CONTINUOUS_INTEGRATION" "true") ; fix fuubar progress display in emacs
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
   (let ((shell-file-name "/bin/bash"))
