@@ -107,30 +107,35 @@ def pbcopy(stuff)
 end
 
 # Work finders
-def winny
-  if Student.respond_to?(:fields)
-    columns = Student.fields.map(&:first) # mongoid
-  else
-    columns = Student.column_names
+def pi
+  Practice.find(16)
+end
+
+def piu
+  User.find(61642)
+end
+
+def bp
+  Practice.find(662)
+end
+
+def bpu
+  User.find(58099)
+end
+
+def first_with_scope(scope)
+  if scope.count > 1
+    puts("******************************")
+    puts("#{scope.count} found, returning first")
+    puts("******************************")
   end
-
-  if columns.include?("remote_id")
-    Student.where(remote_id: 151984).first
-  else
-    Student.find(151984)
-  end
+  scope.first
 end
 
-def bradx3
-  Parent.find_by_login("bradx3")
+def ube(email)
+  first_with_scope(User.where("lower(email) like ?", "%#{email.downcase}%"))
 end
 
-def bradteacher
-  Teacher.find_by_login("bradteacher")
-end
-
-def st
-  reload!
-  ap Delayed::Job.group("queue").count
-  ap Delayed::Job.group("priority").count
+def pbn(name)
+  first_with_scope(Practice.where("lower(name) like ?", "%#{name.downcase}%"))
 end
