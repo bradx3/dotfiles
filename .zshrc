@@ -108,9 +108,13 @@ alias rc="./script/rails console"
 #alias rc="pry -r ./config/environment"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
 alias mb="rake db:migrate && RAILS_ENV=test rake db:schema:load"
+alias olm="ls db/migrate/* | tail -n1 | xargs emacsclient -n"
+alias lt="RAILS_ENV=test rake db:schema:load"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
-alias s="rspec --order random --profile 5"
-alias sf="s --tag \~js spec"
+alias s="spring rspec --order random --profile 5"
+#alias sf="s --tag \~js spec"
+alias sf="SPEC_OPTS='--tag ~js' sp"
+alias sp="bin/parallel_specs --processes 4"
 alias spring="nocorrect spring"
 alias c="bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
 alias cr="bundle exec cucumber --format rerun --out rerun.txt"
@@ -172,13 +176,16 @@ function rake() {
   if [ -f bin/rake ]; then
       bin/rake --trace $1
   else
-      rake --trace $1
+      bundle exec rake --trace $1
   fi
 }
 
+# function ss() {
+#   HEADLESS=on spring rspec -P spec/**/*$1*_spec.rb -f d spec
+# }
 
 function ss() {
-  HEADLESS=on bin/rspec -P spec/**/*$1*_spec.rb -f d spec
+  find spec -ipath "*$1*" -iname "*_spec.rb" | xargs env HEADLESS=on spring rspec -f d
 }
 
 
@@ -191,6 +198,8 @@ alias mc='memcached -I 5m -m 256 -vv'
 alias pil='tail -f log/development.log log/bug_hunter.log log/resque.log log/wfm.log log/xero.log'
 alias psd='git push staging'
 alias h='nocorrect heroku'
+alias lc="git --no-pager log --merges --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short master..develop"
+alias ldm="git --no-pager diff master develop -- db/migrate"
 alias hc="git --no-pager log --merges --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short production..master"
 alias hdm="git --no-pager diff production master -- db/migrate"
 alias pg="gem install bond what_methods benchmark-ips --install-dir vendor/bundle/ruby/2.1.0/"
@@ -411,7 +420,8 @@ zstyle '*' single-ignored show
 
 
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
