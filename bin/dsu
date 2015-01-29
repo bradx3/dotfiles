@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require "date"
+
+today = Date.today
+if today.wday == 1 # Monday
+  date = today - 3
+else
+  date = today - 1
+end
+
+cmd = "git log --all --branches --source " \
+      "--author=brad " \
+      "--date=short " \
+      "--pretty=\"%Cred%h %Cblue%d %Cgreen%ad %Creset %s\" " \
+      "--after=\"#{date.iso8601}\""
+
+puts(cmd)
+system(cmd)
