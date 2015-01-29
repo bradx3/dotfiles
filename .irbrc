@@ -133,9 +133,15 @@ def first_with_scope(scope)
 end
 
 def ube(email)
+  # find user by email
   first_with_scope(User.where("lower(email) like ?", "%#{email.downcase}%"))
 end
 
 def pbn(name)
+  # find practice by name
   first_with_scope(Practice.where("lower(name) like ?", "%#{name.downcase}%"))
+end
+
+def apbn(name)
+  Practice.where("lower(name) like ?", "%#{name.downcase}%").to_a
 end
