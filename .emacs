@@ -64,9 +64,12 @@
  '(css-indent-offset 2)
  '(egg-git-command "/opt/local/bin/git")
  '(fringe-mode 0 nil (fringe))
- '(grep-find-ignored-directories (quote ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap" "archive" "re2" "assets/teacher_toolkit" "assets/repos")))
+ '(grep-find-ignored-directories
+   (quote
+    ("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "log" "cache" "tmp" "attachment_fu_local_development" "attachments" "bootstrap" "archive" "re2" "assets/teacher_toolkit" "assets/repos")))
  '(paren-match-face (quote paren-face-match-light))
  '(paren-sexp-mode t)
+ '(require-final-newline nil)
  '(rspec-use-rake-flag nil)
  '(rspec-use-rake-when-possible nil)
  '(tool-bar-mode nil))
@@ -75,7 +78,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Droid Sans Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "#d3d7cf" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "apple" :family "Droid Sans Mono"))))
  '(rainbow-delimiters-depth-1-face ((((background dark)) (:foreground "#ffffff"))))
  '(rainbow-delimiters-depth-2-face ((((background dark)) (:foreground "#6085ff")))))
 
@@ -133,6 +136,13 @@
 (setq browse-url-browser-function 'browse-url-default-macosx-browser
       delete-by-moving-to-trash t)
 
+;; tabs to spaces by default
+(setq-default indent-tabs-mode nil)
+
+;; don't scroll compilation buffers by default
+;; (so we can see the first spec failure at the top)
+(setq compilation-scroll-output nil)
+
 ;; set smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
@@ -166,17 +176,21 @@
 (setq auto-mode-alist  (cons '(".irbrc" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".ru$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".gemspec$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".jbuilder$" . ruby-mode) auto-mode-alist))
 (add-hook 'ruby-mode-hook 'rainbow-delimiters-mode)
 (setq ruby-deep-indent-paren nil)
 ;; loads html mode when erb file load
 (require 'web-mode)
 (setq auto-mode-alist (cons '(".html.erb$" . web-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '(".ejs$" . web-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '(".html$" . web-mode) auto-mode-alist))
 (set-face-attribute 'web-mode-html-tag-face nil :foreground "#c4a000")
 (set-face-attribute 'web-mode-html-attr-custom-face nil :foreground "#ad7fa8")
-;; flymake syntax checking
-(require 'flymake-ruby)
-(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+(setq web-mode-markup-indent-offset 2)
+;; flycheck syntax checking
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(setq flycheck-highlighting-mode 'lines)
+(setq flycheck-indication-mode 'left-fringe)
 ;; haml mode
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 ;; sass mode
@@ -204,6 +218,20 @@
 ;; rails helpers
 (projectile-global-mode)
 (add-hook 'projectile-mode-hook 'projectile-rails-on)
+(defun projectile-rails-find-serializer ()
+  (interactive)
+  (projectile-rails-find-resource ": " '(("app/serializers/" "/serializers/\\(.+\\)\\.rb$"))))
+(global-set-key "\C-crz" 'projectile-rails-find-serializer)
+(defun projectile-rails-find-service ()
+  (interactive)
+  (projectile-rails-find-resource ": " '(("app/services/" "/services/\\(.+\\)\\.rb$"))))
+(global-set-key "\C-cre" 'projectile-rails-find-service)
+(defun projectile-rails-find-worker ()
+  (interactive)
+  (projectile-rails-find-resource ": " '(("app/workers/" "/workers/\\(.+\\)\\.rb$"))))
+(global-set-key "\C-crw" 'projectile-rails-find-worker)
+
+
 ;; csv mode
 (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
 (autoload 'csv-mode "csv-mode"
@@ -218,6 +246,7 @@
 (setq rspec-use-bundler-when-possible t)
 (setq rspec-use-opts-file-when-available t)
 (setenv "CONTINUOUS_INTEGRATION" "true") ; fix fuubar progress display in emacs
+(setenv "HEADLESS" "on") ; use headless specs until firefox works again
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
   (let ((shell-file-name "/bin/bash"))
@@ -394,10 +423,9 @@
   (interactive)
   (shell-command
    (concat "cd "
-	   (current-git-repo)
+	   (projectile-project-root)
 	   "&& gh "
-	   (replace-regexp-in-string (current-git-repo) "" buffer-file-name))))
-
+	   (replace-regexp-in-string (projectile-project-root) "" buffer-file-name))))
 
 (defun swap-windows ()
  "If you have 2 windows, it swaps them." (interactive) (cond ((not (= (count-windows) 2)) (message "You need exactly 2 windows to do this."))
@@ -482,6 +510,12 @@ buffer read-only, so I suggest setting kill-read-only-ok to t."
 (global-set-key "\C-c\ s" 'open-my-scratch)
 (kill-buffer "*scratch*")
 (open-my-scratch)
+
+(defun open-current-project ()
+  "Opens current work project"
+  (interactive)
+  (find-file "~/Code/PI/app/models/practice.rb"))
+(open-current-project)
 
 (defun iwb ()
   "Indents the entire buffer"
