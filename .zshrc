@@ -36,7 +36,8 @@ setopt SHARE_HISTORY          # share history between open shells
 ###
 # Setup vars
 ###
-PATH=~/bin:./bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/opt/local/lib/postgresql83/bin:$PATH
+export GOPATH=$HOME/Code/Go
+PATH=~/bin:$GOPATH/bin:./bin:/usr/local/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/opt/local/lib/postgresql83/bin:$PATH
 export PATH
 TZ="Australia/Sydney"
 
@@ -51,7 +52,7 @@ export SHELL="/bin/zsh"
 export RUBYLIB="~/projects/scripts/lib"
 export EDITOR="emacsclient"
 export GIT_EDITOR="emacsclient"
-export NODE_PATH="/usr/local/lib/node"
+export NODE_PATH="/usr/local/lib/node:/usr/local/lib/node_modules"
 
 if [[ `uname` == "Darwin" ]] then
   export CLICOLOR=1
@@ -81,9 +82,10 @@ zstyle -e ':completion:*:(ssh|scp):*' hosts 'reply=(
 
 ###
 # Aliases
-### 
+###
 
 # general helpers
+alias e="emacsclient -n"
 alias l="ls -laFhG"
 alias m="mate ."
 alias mw="mate -w"
@@ -103,18 +105,18 @@ alias mystop="sudo /opt/local/share/mysql5/mysql/mysql.server stop"
 alias pgstart="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper start"
 alias pgstop="sudo /opt/local/etc/LaunchDaemons/org.macports.postgresql83-server/postgresql83-server.wrapper stop"
 
-alias rs="./script/rails server"
+alias rs="bc && HOST=localhost:3000 be unicorn -c config/unicorn.development.rb"
 alias rc="./script/rails console"
 #alias rc="pry -r ./config/environment"
 alias mdmu="rake db:migrate VERSION=0; rake db:migrate; rake db:test:clone"
-alias mb="rake db:migrate && RAILS_ENV=test rake db:schema:load"
+alias mb="rake db:abort_if_pending_migrations || (rake db:migrate && RAILS_ENV=test rake db:schema:load)"
 alias olm="ls db/migrate/* | tail -n1 | xargs emacsclient -n"
 alias lt="RAILS_ENV=test rake db:schema:load"
 alias test_timer="rake TIMER=true 2>/dev/null | grep \" - \" | sort -r | head -n 20"
 alias s="spring rspec --order random --profile 5"
 #alias sf="s --tag \~js spec"
 alias sf="SPEC_OPTS='--tag ~js' sp"
-alias sp="bin/parallel_specs --processes 4"
+alias sp="bin/parallel_specs --processes 4 --setup"
 alias spring="nocorrect spring"
 alias c="bundle exec cucumber -f Cucumber::Formatter::ProgressPerFile"
 alias cr="bundle exec cucumber --format rerun --out rerun.txt"
@@ -173,7 +175,9 @@ function gdt() {
 }
 
 function rake() {
-  if [ -f bin/rake ]; then
+  if [ -f bin/spring ]; then
+      bin/spring rake --trace $1
+  elif [ -f bin/rake ]; then
       bin/rake --trace $1
   else
       bundle exec rake --trace $1
@@ -198,7 +202,7 @@ alias mc='memcached -I 5m -m 256 -vv'
 alias pil='tail -f log/development.log log/bug_hunter.log log/resque.log log/wfm.log log/xero.log'
 alias psd='git push staging'
 alias h='nocorrect heroku'
-alias lc="git --no-pager log --merges --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short master..develop"
+alias lc="git --no-pager log --merges --grep=\"pull request\" --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short master..develop"
 alias ldm="git --no-pager diff master develop -- db/migrate"
 alias hc="git --no-pager log --merges --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%C(yellow)%d%Creset' --date=short production..master"
 alias hdm="git --no-pager diff production master -- db/migrate"
@@ -206,6 +210,10 @@ alias pg="gem install bond what_methods benchmark-ips --install-dir vendor/bundl
 alias pis='nocorrect pi_staging'
 alias pip='nocorrect pi_production'
 alias pia='nocorrect pi_alpha'
+
+function pr() {
+  open "https://github.com/ignitionapp/Practice-Ignition/pull/$1"
+}
 
 function pi_staging() {
   heroku $* --remote staging
@@ -227,6 +235,21 @@ function pi_alpha() {
 # }
 function git_current_branch() {
   git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
+}
+function git_current_branch() {
+  git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
+}
+function git_wip_prompt() {
+  [[ $(git log -n 1 --pretty=%s 2> /dev/null) = "wip" ]] && echo " WIP"
+}
+function wip() {
+  if [ "$(git log -n 1 --pretty=%s)" = "wip" ]; then
+    git reset --soft HEAD~
+    git status
+  else
+    git add .
+    git commit -v -a -m "wip" -n
+  fi
 }
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
@@ -277,7 +300,7 @@ case $HOST in
         ;;
 esac
 function precmd {
-  PS1="[%{$PR_MAGENTA%}%n%{$PR_NO_COLOR%}@%{$fg[$hostcolor]%}%U%m%u%{$PR_NO_COLOR%}:%{$PR_CYAN%}%2c %{$PR_RED%}($(git_current_branch))%{$PR_NO_COLOR%}]%(!.#.$) "
+  PS1="[%{$PR_MAGENTA%}%n%{$PR_NO_COLOR%}@%{$fg[$hostcolor]%}%U%m%u%{$PR_NO_COLOR%}:%{$PR_CYAN%}%2c %{$PR_RED%}($(git_current_branch))%{$PR_BLUE%}$(git_wip_prompt)%{$PR_NO_COLOR%}]%(!.#.$) "
 }
 
 RPS1="\$(rvm-prompt)$PR_MAGENTA(%D{%I:%M %p %d-%m-%y})$PR_NO_COLOR"
@@ -423,5 +446,5 @@ zstyle '*' single-ignored show
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
